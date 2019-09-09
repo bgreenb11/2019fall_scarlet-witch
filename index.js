@@ -1,6 +1,13 @@
+// import {DB} from './utilities/database/rw_db.js';
 const { app, BrowserWindow, ipcMain} = require('electron');
 
 let main_win, login_win;
+
+let DB = require('./utilities/database/rw_db.js');
+let db = new DB();
+
+db.open_db();
+db.close_db();
 
 function createWindows() {
 

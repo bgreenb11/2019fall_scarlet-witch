@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postinstall": "install-app-deps",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."
   },
@@ -17,7 +18,11 @@
     "url": "https://github.com/utk-cs/2019fall_scarlet-witch/issues"
   },
   "homepage": "https://github.com/utk-cs/2019fall_scarlet-witch#readme",
+  "dependencies": {
+    "sqlite3": "^4.1.0"
+  },
   "devDependencies": {
-    "electron": "^6.0.5"
+    "electron": "^6.0.5",
+    "electron-builder": "^21.2.0"
   }
 }
