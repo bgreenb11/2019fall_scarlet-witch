@@ -7,6 +7,8 @@ let DB = require('./utilities/database/rw_db.js');
 let db = new DB();
 
 db.open_db();
+db.write_db();
+db.read_db();
 db.close_db();
 
 function createWindows() {
