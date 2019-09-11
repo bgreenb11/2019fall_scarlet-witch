@@ -1,0 +1,11 @@
+body {
+    font-family: sans-serif;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    background-color: #e5d9c3;
+}
+
+.main-view {
+    float: left;
+}
