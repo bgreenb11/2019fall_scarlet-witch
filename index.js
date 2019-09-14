@@ -23,7 +23,7 @@ function createWindows() {
         }
     })
 
-    main_win.loadFile('views/pages/landing.html')
+    main_win.loadFile('views/pages/dashboard.html')
 
     // Login modal
     login_win = new BrowserWindow({
