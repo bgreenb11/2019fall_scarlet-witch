@@ -4,10 +4,10 @@
 let get_device_id = function(device_name=null, db=null){
     
     let sql = `SELECT device_id as id 
-            WHERE device_name=?
+            WHERE device_name=${device_name}
             FROM devices;`;
     
-    db.get(sql, [device_name], (err, row) => {
+    db.get(sql, [], (err, row) => {
         if(err){
             console.error(err);
             return err;
@@ -21,11 +21,11 @@ let get_device_id = function(device_name=null, db=null){
 };
 
 
-let get_device_data = function(device_name=null, time=-1, unit=null, data_type=null, db=null){
-    let device_id = get_device_id(device_name, db);
+let get_device_data = function(item=null, time=-1, unit=null, db=null){
+    let device_id = get_device_id(item.name, db);
 
     let sql = `SELECT data_entry FROM device_data
-            WHERE data_type=${data_type}
+            WHERE data_type=${item.type}
             AND device_id=${device_id}
             AND created_at BETWEEN datetime('now', '-${time} ${unit}) AND datetime('now');`;
 
@@ -40,3 +40,4 @@ let get_device_data = function(device_name=null, time=-1, unit=null, data_type=n
     return data;
 };
 
+module.exports =  {get_device_id, get_device_data};

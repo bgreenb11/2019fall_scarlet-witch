@@ -6,10 +6,9 @@ let main_win, login_win;
 let DB = require('./utilities/database/rw_db.js');
 let db = new DB();
 
+let item = {name: "'Test Device'", id: 42};
+
 db.open_db();
-db.write_db();
-db.read_db();
-db.close_db();
 
 function createWindows() {
 
