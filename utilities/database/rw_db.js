@@ -60,8 +60,8 @@ module.exports =  class DB {
                 ;`)
             }
             else if(table === 'device_data'){
-                this.db.run(`INSERT INTO device_data (data_type, device_id)
-                    VALUES(${item.name}, ${item.id})
+                this.db.run(`INSERT INTO device_data (data_type, device_id, data_entry)
+                    VALUES(${item.name}, ${item.id}, ${item.data})
                 ;`)
             }
         }
@@ -87,11 +87,27 @@ module.exports =  class DB {
         } 
     }
 
-    read_db() {
+    /**
+     * Method to read from db
+     *
+     * @param {int} time
+     * @param {string} unit
+     */
+    read_db(time=-1, unit="") {
+        if(time === -1 || unit === ""){
+            console.err("read_db usage: time = integer > 0, unit = unit of time")
+        }
+
+        if(unit == "hr"){
+
+        }
+        else if(unit == "d"){
+
+        }
         this.db.serialize(() => {
             this.db.each(`SELECT device_id as id,
                             device_name as name
-                        FROM devices`, (err, row) => {
+                        FROM devices;`, (err, row) => {
               if (err) {
                 console.error(err.message);
               }
@@ -100,6 +116,9 @@ module.exports =  class DB {
         });
     }
 
+    /**
+     * Method to close db connection
+     */
     close_db() {
         // close the database connection
         this.db.close((err) => {
@@ -111,4 +130,3 @@ module.exports =  class DB {
     }
 };
  
-
