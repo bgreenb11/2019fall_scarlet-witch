@@ -4,7 +4,7 @@
 const express = require('express');
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
-const envVariables = require('./env-variables');
+const envVariables = require('../env_variables/env-variables.json');
 
 const app = express();
 

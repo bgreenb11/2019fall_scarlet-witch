@@ -1,7 +1,13 @@
 // import {DB} from './utilities/database/rw_db.js';
 const { app, BrowserWindow, ipcMain} = require('electron');
+const authService = require('./services/auth-service');
+const createAppWindow = require('./scripts/appprocess')
+const {createAuthWindow} = require('./scripts/authprocess')
 
-let main_win, login_win;
+
+let bg_auth_win = null;
+let main_win = null;
+let login_win = null;
 
 let DB = require('./utilities/database/rw_db.js');
 let db = new DB();
@@ -10,40 +16,37 @@ let item = {name: "'Test Device'", id: 42};
 
 db.open_db();
 
-function createWindows() {
+function createServerWindow() {
 
-    // Window that will be activated acter user logs in
-    main_win = new BrowserWindow({
-        width: 1024,
-        height: 576,
+    // Hidden Auth server window
+    bg_auth_win = new BrowserWindow({
         show: false,
         webPreferences: {
             nodeIntegration: true
         }
     })
 
-    main_win.loadFile('views/pages/dashboard.html')
+    bg_auth_win.loadFile('views/hidden/auth-server.html')
+}
 
-    // Login modal
-    login_win = new BrowserWindow({
-        parent: main_win,
-        width: 288,
-        height: 384,
-        frame: true,
-        webPreferences: {
-            nodeIntegration: true
-        }
-    })
-
-    login_win.loadFile('views/pages/login.html')
-
+async function showWindow() {
+    createServerWindow();
+    try {
+        await authService.refreshTokens();
+        return createAppWindow();
+    } catch (err) {
+        createAuthWindow();
+    }
 }
 
 // Create window when app is ready
-app.on('ready', createWindows);
+app.on('ready', showWindow)
 
+/*
 ipcMain.on('login', (event, arg) => {
     console.log(`User:\n    Username: ${arg['username']}\n    Password: ${arg['password']}`);
     main_win.show();
     login_win.close();
 })
+*/
+
