@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/utk-cs/2019fall_scarlet-witch#readme",
   "dependencies": {
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "jwks-rsa": "^1.6.0",
     "node-fetch": "^2.6.0",
     "sqlite3": "^4.1.0"
   },
