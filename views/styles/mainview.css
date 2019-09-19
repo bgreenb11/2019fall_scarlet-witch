@@ -1,22 +1,30 @@
 body {
     font-family: sans-serif;
     background-color: #e5d9c3;
+    padding-top: 12px;
 }
 
 #main-view {
     padding: 16px;
 }
 
-div.profile span {
-    display: inline-block;
-    align-self: center;
-    color: #ccc;
-    margin-left: 10px;
-    margin-right: 25px;
-  }
-  
-  div.profile img {
-    width: 30px;
+.main-view .avatar {
     border-radius: 50%;
-    align-self: center;
-  }
+    padding: 8px;
+    width: 32px;
+    height: 32px;
+}
+
+.main-view h1 {
+    font-size: 25px;
+    font-weight: 400;
+    margin: 0;
+    padding: 8px;
+}
+
+.main-view h3 {
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
+    padding: 8px;
+}

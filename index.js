@@ -16,6 +16,11 @@ let item = {name: "'Test Device'", id: 42};
 
 db.open_db();
 
+const SettingsHelper = require('./utilities/settings');
+const settings_file = require('./settings.json');
+let settings_helper = new SettingsHelper(settings_file);
+
+
 function createServerWindow() {
 
     // Hidden Auth server window
@@ -26,7 +31,7 @@ function createServerWindow() {
         }
     })
 
-    bg_auth_win.loadFile('views/hidden/auth-server.html')
+    //bg_auth_win.loadFile('views/hidden/auth-server.html')
 }
 
 async function showWindow() {
