@@ -18,7 +18,19 @@
     </div>
     <div class="main-view" id="main-view">
       <p>Dashboard Page</p>
+      <button onclick="sendRequest('outlet_on')">Outlet On</button>
+      <button onclick="sendRequest('outlet_off')">Outlet Off</button>
+      <button id="logout">LOGOUT</button>
+      <div class="profile">
+        <img id="picture"/>
+        <span id="name"></span>
+      </div>
+      <div id="outlet_state"></div>
     </div>
     <script src="../../scripts/navmenu.js"></script>
+    <script src="../../scripts/send.js"></script>
+    <script src="../../scripts/logout.js"></script>
+    <script src="../../scripts/server.js"></script>
+    <script src="../../scripts/state_update.js"></script>
   </body>
 </html>

@@ -1,5 +1,7 @@
-// TODO Update script to es6 as soon as method is found
 // This class will act as the interface between the database and the electron app
+
+let read =  require('./read_db');
+
 module.exports =  class DB {
     constructor() {
         this.database = require('sqlite3').verbose();
@@ -60,8 +62,8 @@ module.exports =  class DB {
                 ;`)
             }
             else if(table === 'device_data'){
-                this.db.run(`INSERT INTO device_data (data_type, device_id)
-                    VALUES(${item.name}, ${item.id})
+                this.db.run(`INSERT INTO device_data (data_type, device_id, data_entry)
+                    VALUES(${item.name}, ${item.id}, ${item.data})
                 ;`)
             }
         }
@@ -87,11 +89,25 @@ module.exports =  class DB {
         } 
     }
 
-    read_db() {
+    /**
+     * Method to read from db
+     *
+     * @param {int} time
+     * @param {string} unit
+     */
+    read_db(time=-1, unit="", item=null) {
+        if(time === -1 || unit === ""){
+            console.error("read_db usage: time = integer > 0, unit = unit of time")
+        }
+
+        let data = read.get_device_data(item, time, unit, this.db);
+
+        console.log(data);
+
         this.db.serialize(() => {
             this.db.each(`SELECT device_id as id,
                             device_name as name
-                        FROM devices`, (err, row) => {
+                        FROM devices;`, (err, row) => {
               if (err) {
                 console.error(err.message);
               }
@@ -100,6 +116,9 @@ module.exports =  class DB {
         });
     }
 
+    /**
+     * Method to close db connection
+     */
     close_db() {
         // close the database connection
         this.db.close((err) => {
@@ -111,4 +130,3 @@ module.exports =  class DB {
     }
 };
  
-

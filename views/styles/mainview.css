@@ -6,3 +6,17 @@ body {
 #main-view {
     padding: 16px;
 }
+
+div.profile span {
+    display: inline-block;
+    align-self: center;
+    color: #ccc;
+    margin-left: 10px;
+    margin-right: 25px;
+  }
+  
+  div.profile img {
+    width: 30px;
+    border-radius: 50%;
+    align-self: center;
+  }
