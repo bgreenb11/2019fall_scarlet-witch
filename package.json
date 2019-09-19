@@ -28,6 +28,7 @@
     "keytar": "^5.0.0-beta.2",
     "node-fetch": "^2.6.0",
     "request": "^2.88.0",
+    "server": "^1.0.19",
     "sqlite3": "^4.1.0"
   },
   "devDependencies": {
