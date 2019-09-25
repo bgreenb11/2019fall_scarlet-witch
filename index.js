@@ -4,6 +4,8 @@ const authService = require('./services/auth-service');
 const createAppWindow = require('./scripts/appprocess')
 const {createAuthWindow} = require('./scripts/authprocess')
 
+let AWSHelp = require('./scripts/AWS/AWSHelper')
+
 
 let bg_auth_win = null;
 let main_win = null;
