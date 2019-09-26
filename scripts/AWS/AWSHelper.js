@@ -1,30 +1,71 @@
 const AWS = require('aws-sdk');
 AWS.config.loadFromPath(process.cwd() + '/config.json');
 
-let iot = new AWS.Iot();
+// DB RELATED
+
+function listAllTables() {
+    var params = {};
+    var return_vals = {};
+    var db = new AWS.DynamoDB();
+    db.listTables(params, (data, err) => {
+        if (err) console.log(err);
+        else console.log(data);
+        return_vals = data;
+    });
+
+    return return_vals;
+}
 
 
-// Remove if you want to stop creating thing
-console.log("Creating SDK Thing");
+// IOT RELATED
 
-iot.createThing({thingName: 'SDKTestThing'}, (data, err) => {
-    if (err) console.log(err);
-    else console.log(data);
-});
+function addIotThing(thing) {
+    var params = {
+        thingName: thing['name']
+    };
+    var return_vals = {};
+    var iot = new AWS.Iot();
+    iot.createThing(params, (data, err) => {
+        if (err) console.log(err);
+        else console.log(data);
+        return_vals = data;
+    });
+
+    return return_vals;
+}
 
 
-// Code to list things associated with accounts
-console.log("Listing All Things");
+function listAllIotThings(thing) {
+    var params = {
+        attributeName: thing['attrName'],
+        attributeValue: thing['attrValue'],
+        maxResults: thing['resultCap'],
+        thingTypeName: thing['typeName']
+    };
+    var return_vals = {};
+    var iot = new AWS.Iot();
+    iot.listThings(params, (data, err) => {
+        if (err) console.log(err);
+        else console.log(data);
+        return_vals = data;
+    });
 
-iot.listThings({}, (data, err) => {
-    if (err) console.log(err);
-    else console.log(data);
-});
+    return return_vals;
+}
 
-// Remove if you want to keep new thing
-console.log("Deleting SDK Thing");
 
-iot.deleteThing({thingName: 'SDKTestThing'}, (data, err) => {
-    if (err) console.log(err);
-    else console.log(data);
-});
+function deleteIotThing(thing) {
+    var params = {
+        thingName: thing['name']
+    };
+    var return_vals = {};
+    var iot = new AWS.Iot();
+    iot.deleteThing(params, (data, err) => {
+        if (err) console.log(err);
+        else console.log(data);
+        return_vals = data;
+    });
+
+    return return_vals;
+}
+
