@@ -1,5 +1,21 @@
 
+let get_device_event = function(device_id=null, db=null, event_name=null){
 
+    let sql = `SELECT ${event_name} FROM devices 
+            WHERE device_id=${device_id}`;
+
+    db.get(sql, [], (err, row) => {
+        if(err){
+            console.error(err);
+            return err;
+        }
+        else{
+            let event = row ? row.event_name : undefined;
+        }
+    });
+
+    return event;
+}
 
 let get_device_id = function(device_name=null, db=null){
     
