@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron');
+const HueHelper = require('./scripts/HueAPI/HueHelper');
 
 let main_window;
 
@@ -12,4 +13,6 @@ function showWindow() {
     });
 }
 
-app.on('ready', showWindow);
+app.on('ready', () => {
+    showWindow();
+});
