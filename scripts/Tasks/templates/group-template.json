@@ -1,0 +1,33 @@
+{
+    "job_type": "GROUP",
+    "job_data": {
+        "on": false,
+        "scenes": ["list", "of", "scene", "names"],
+        "color": {
+            "value": [255, 255, 255],
+            "increase": false 
+        },
+        "brightness": {
+            "value": 100,
+            "increase": false 
+        },
+        "hue": {
+            "value": 65535,
+            "increase": false 
+        },
+        "saturation": {
+            "value": 100,
+            "increase": false 
+        },
+        "cie": {
+            "value": [1, 1],
+            "increase": false 
+        },
+        "mired": {
+            "value": 500,
+            "increase": false 
+        },
+        "transition": 100,
+        "effect": "none | colorloop"
+    }
+}
