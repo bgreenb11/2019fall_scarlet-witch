@@ -44,6 +44,7 @@ async function loadUser(username) {
 
 function handleError(err) {
     if (err.getHueErrorType() === 101) console.error("Press Link button on Hue Bridge.");
+    else if (err.getHueErrorType() === 3) console.error("Scene could not be found.");
     else console.error(`Unknown Error: ${err.message}`);
 }
 
