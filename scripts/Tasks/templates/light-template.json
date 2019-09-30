@@ -2,6 +2,7 @@
     "job_type": "LIGHT",
     "job_data": {
         "on": false,
+        "targets": [0],
         "function": "none | white | hsb | hsl | rbg",
         "color": {
             "value": [255, 255, 255],
