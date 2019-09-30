@@ -2,6 +2,8 @@
     "job_type": "SCENE",
     "job_data": {
         "on": false,
+        "targets": [0],
+        "scenes": "scene name",
         "color": {
             "value": [255, 255, 255],
             "increase": false 
