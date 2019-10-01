@@ -18,7 +18,7 @@ async function findBridge() {
 async function createUser() {
     try {
         _IP = await findBridge();
-        var unauth_api = await hueApi.create(results[0].ipaddress);
+        var unauth_api = await hueApi.create(_IP);
         var user = await unauth_api.users.createUser(app_name, device_name);
         _USER = user.username;
     } catch(err) {
@@ -35,7 +35,7 @@ function connect(username=null, ip=null) {
 
 function session() {
     if (_SESSION) return _SESSION;
-    else return HueApi.create(_IP, _USER);
+    else return hueApi.create(_IP, _USER);
 }
 
 function sendTask(task, state) {
@@ -63,6 +63,7 @@ function sendTask(task, state) {
     } else {
         throw Error("Invalid task type given.");
     }
+    return response;
 }
 
 module.exports = {
