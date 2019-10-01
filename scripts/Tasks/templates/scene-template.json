@@ -1,9 +1,9 @@
 {
-    "job_type": "SCENE",
+    "job_type": "SCENE | SCENELIGHT",
     "job_data": {
         "on": false,
         "targets": [0],
-        "scenes": "scene name",
+        "scenes": ["scene name"],
         "color": {
             "value": [255, 255, 255],
             "increase": false 
