@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron');
-const HueSession = require('./scripts/HueAPI/HueSession');
+const HueSession = require('./scripts/HueAPI/HueHelper');
 const url = require('url')
 
 let main_window;
@@ -19,9 +19,12 @@ function showWindow() {
         slashes: true,
     });
     main_window.loadURL(my_url)
+    
 }
 
 app.on('ready', () => {
-    showWindow();
-    HueSession.connect();
+     setTimeout(function(){
+        HueSession.sendTask();
+        showWindow();
+     }, 2000)
 });
