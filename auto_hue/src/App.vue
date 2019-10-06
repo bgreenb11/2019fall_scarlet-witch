@@ -12,6 +12,9 @@
       <router-link to="/devices">
         <v-btn text> <span class="mr-2">Devices and Groups</span> </v-btn>
       </router-link>
+      <router-link to="/device">
+        <v-btn text> <span class="mr-2">Device Page</span> </v-btn>
+      </router-link>
     </v-app-bar>
     <v-content>
       <router-view/>   
