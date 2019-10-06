@@ -13,7 +13,9 @@
   },
   "main": "background.js",
   "dependencies": {
+    "chai": "^4.2.0",
     "core-js": "^2.6.5",
+    "node-hue-api": "^3.2.1",
     "vue": "^2.6.10",
     "vue-carousel": "^0.18.0",
     "vue-router": "^3.0.3",
