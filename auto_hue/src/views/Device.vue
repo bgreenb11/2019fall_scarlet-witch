@@ -1,6 +1,7 @@
 <template>
   <div class="device">
-    <v-color-picker></v-color-picker>>
+      <v-color-picker></v-color-picker>
+      <v-slider></v-slider>
   </div>
 </template>
 
