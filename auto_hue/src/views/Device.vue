@@ -7,6 +7,7 @@
     ></v-img>
       <v-color-picker></v-color-picker>
       <v-slider></v-slider>
+      <v-switch></v-switch>
   </div>
 </template>
 
