@@ -1,7 +1,10 @@
 <template>
     <div class="home">
-        <HelloWorld />
-        <HueHelper />
+        <LoadingScreen :isLoading="isLoading"/>
+        <div v-if="!isLoading">
+          <HelloWorld />
+          <HueHelper />
+        </div>
     </div>
 </template>
 
@@ -12,7 +15,7 @@ import HueHelper from '../components/HueHelper';
 export default {
   components: {
     HelloWorld,
-    HueHelper
+    HueHelper,
   },
 };
 </script>

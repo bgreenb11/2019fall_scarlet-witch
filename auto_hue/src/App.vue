@@ -19,12 +19,20 @@
 </template>
 
 <script>
+import LoadingScreen from './components/LoadingScreen';
+
 export default {
   name: 'App',
   components: {
+    LoadingScreen
   },
   data: () => ({
-    connectedStatus: false
+    loading: true
   }),
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 3000);
+  }
 };
 </script>
