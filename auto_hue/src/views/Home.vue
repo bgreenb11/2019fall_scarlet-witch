@@ -1,10 +1,7 @@
 <template>
     <div class="home">
-        <LoadingScreen :isLoading="isLoading"/>
-        <div v-if="!isLoading">
-          <HelloWorld />
-          <HueHelper />
-        </div>
+        <HelloWorld />
+        <HueHelper />
     </div>
 </template>
 
