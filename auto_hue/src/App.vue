@@ -12,6 +12,9 @@
         <router-link to="/devices">
           <v-btn text> <span class="mr-2">Devices and Groups</span> </v-btn>
         </router-link>
+        <router-link to="/non-auto-light-task">
+          <v-btn text> <span class="mr-2">Devices and Groups</span> </v-btn>
+        </router-link>
       </v-app-bar>
       <v-content>
         <router-view/>   
@@ -38,6 +41,7 @@ export default {
     setTimeout(() => {
       this.loading = false
     }, 10000);
+    console.log(this.$hue.data().app_name);
   }
 };
 </script>
