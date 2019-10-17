@@ -45,9 +45,17 @@ const getters = {
     allDevices: (state) => state.devices
 };
 
-const actions = {};
+const actions = {
+    addDevices({
+        commit
+    }, devices) {
+        commit('addDevices', devices)
+    },
+};
 
-const mutations = {};
+const mutations = {
+    addDevices: (state, devices) => (state.devices = devices)
+};
 
 export default {
     state,
