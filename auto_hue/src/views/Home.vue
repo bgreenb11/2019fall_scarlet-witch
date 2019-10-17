@@ -2,6 +2,7 @@
     <div class="home">
         <HelloWorld />
         <HueHelper />
+        <BridgeSelector />
     </div>
 </template>
 
