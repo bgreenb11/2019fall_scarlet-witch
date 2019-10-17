@@ -2,6 +2,7 @@
     <div class="home">
         <HelloWorld />
         <HueHelper />
+        <BridgeSelector />
     </div>
 </template>
 
@@ -12,7 +13,7 @@ import HueHelper from '../components/HueHelper';
 export default {
   components: {
     HelloWorld,
-    HueHelper
+    HueHelper,
   },
 };
 </script>
