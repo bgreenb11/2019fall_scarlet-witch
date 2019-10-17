@@ -1,13 +1,13 @@
 <template>
-  <v-card max-width="500" max-height="300" class="mx-auto my-8">
-    <v-toolbar dark>
+  <v-card width="500" height="300" class="mx-auto my-8">
+    <v-toolbar dark height="50">
       <v-toolbar-title>Please select your bridge:</v-toolbar-title>
     </v-toolbar>
-    <v-list two-line class="overflow-y-auto" max-height="300">
+    <v-list two-line class="overflow-y-auto" width="500" height="250">
       <v-list-item
         v-for="bridge in SAMPLE_BRIDGES"
         :key="bridge.name"
-        v-on:click="chooseBridge(bridge)"
+        v-on:click= "$emit('bridgeChosen', bridge)"
       >
         <v-list-item-content>
           <v-list-item-title v-text="bridge.name" />
@@ -150,14 +150,14 @@ export default {
   },
   methods: {
     chooseBridge: function(bridge) {
-      this.chosen_bridge = bridge;
-      console.log(this.chosen_bridge.name);
+      this.chooseBridge = bridge;
+      console.log(bridge.name);
     },
     getBridge: function() {
       return this.chosen_bridge;
     },
     setBridges: function(bridges) {
-        this.bridges = bridges
+      this.bridges = bridges;
     }
   }
 };

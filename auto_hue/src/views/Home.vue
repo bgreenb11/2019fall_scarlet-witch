@@ -1,19 +1,15 @@
 <template>
-    <div class="home">
-        <HelloWorld />
-        <HueHelper />
-        <BridgeSelector />
-    </div>
+  <div class="home">
+    <FirstSetup />
+  </div>
 </template>
 
 <script>
-import HelloWorld from '../components/HelloWorld';
-import HueHelper from '../components/HueHelper';
+import FirstSetup from "../views/FirstSetup";
 
 export default {
   components: {
-    HelloWorld,
-    HueHelper,
-  },
+    FirstSetup
+  }
 };
 </script>
