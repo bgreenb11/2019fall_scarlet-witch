@@ -7,9 +7,14 @@
       <v-col>
         <v-color-picker
           v-model="color"
+          :disabled="!toggle"
         ></v-color-picker>
-        <v-slider></v-slider>
-        <v-switch></v-switch>
+        <v-slider
+            :disabled="!toggle"
+          ></v-slider>
+        <v-switch
+          v-model="toggle"
+        ></v-switch>
       </v-col>
     </v-row>
   </div>
@@ -19,7 +24,8 @@
 
 export default {
   data: () => ({
-      color: '#000000'
+      color: '#000000',
+      toggle:'false'
   }),
 
   name: 'Device',
