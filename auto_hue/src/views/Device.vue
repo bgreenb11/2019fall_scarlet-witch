@@ -6,12 +6,14 @@
       </v-col>
       <v-col>
         <v-color-picker
+          id="color-picker"
           v-model="color"
           :disabled="!toggle"
         ></v-color-picker>
         <v-slider
-            :disabled="!toggle"
-          ></v-slider>
+          :disabled="!toggle"
+          :style="{ width: color_picker_width}"
+        ></v-slider>
         <v-switch
           v-model="toggle"
         ></v-switch>
@@ -25,8 +27,13 @@
 export default {
   data: () => ({
       color: '#000000',
-      toggle:'false'
+      toggle:'false',
+      color_picker_width: '300px'
   }),
+
+  mounted: function() {
+    this.color_picker_width = document.getElementById('color-picker').clientWidth + 'px';
+  },
 
   name: 'Device',
   props: {
