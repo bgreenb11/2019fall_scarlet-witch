@@ -124,8 +124,8 @@ const getters = {
 const actions = {
     addBridges({
         commit
-    }, bridges) {
-        commit('addBridges', bridges)
+    }, results) {
+        commit('addBridges', results)
     },
     chooseBridge({
         commit
@@ -135,7 +135,10 @@ const actions = {
 };
 
 const mutations = {
-    addBridges: (state, bridges) => (state.bridges = bridges),
+    addBridges: (state, results) => {
+        state.bridges.push(results);
+        console.log(results);
+    },
     setChosenBridge: (state, ip_address) => {
         state.bridges.forEach(element => {
             if (element.ip_address === ip_address) {
