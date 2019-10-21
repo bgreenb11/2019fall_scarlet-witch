@@ -2,7 +2,7 @@
   <div class="device">
     <v-row>
       <v-col>
-        <img id="bulb" src="../assets/clear_bulb.png" width="300" v-bind:style="{backgroundColor: color}">
+        <img id="bulb" :src="require(`../assets/bulb_${toggle ? 'on': 'off'}.png`)" width="300" v-bind:style="{backgroundColor: color}">
       </v-col>
       <v-col>
         <v-color-picker
@@ -27,7 +27,7 @@
 export default {
   data: () => ({
       color: '#000000',
-      toggle:'false',
+      toggle: false,
       color_picker_width: '300px'
   }),
 
