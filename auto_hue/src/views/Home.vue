@@ -1,20 +1,20 @@
 <template>
   <div class="home">
-    <HelloWorld />
+    <!--HelloWorld / -->
     <!-- <HueHelper /> -->
-    <v-btn @click="test">Add Devices</v-btn>
+    <!-- v-btn @click="test">Add Devices</v-btn -->
+    <InitialSetup />
   </div>
 </template>
 
 <script>
-import HelloWorld from "../components/HelloWorld";
-// import HueHelper from "../components/HueHelper";
+import InitialSetup from "./InitialSetup";
 import { mapActions } from "vuex";
 import axios from "axios";
 
 export default {
   components: {
-    HelloWorld
+    InitialSetup,
     // HueHelper
   },
   methods: {
