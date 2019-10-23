@@ -260,11 +260,9 @@ export default {
     },
     start_linkBridge: function() {
       console.log(this.index);
-      self = this;
-      setTimeout(function() {
-        self.linkBridge();
+      setTimeout( () => {
+        this.linkBridge();
       }, 10000);
-
     },
     linkBridge: function() {
       var json = {
@@ -285,7 +283,7 @@ export default {
             }
             })
             .catch(error => {
-            
+              console.error(error);
             });
       } catch (error) {
           console.error(error);

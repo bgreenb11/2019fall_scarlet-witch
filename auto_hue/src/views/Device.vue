@@ -16,6 +16,7 @@
         ></v-slider>
         <v-switch
           v-model="toggle"
+          v-on:change="toggleLight()"
         ></v-switch>
       </v-col>
     </v-row>
@@ -23,6 +24,7 @@
 </template>
 
 <script>
+import axios from "axios";
 
 export default {
   data: () => ({
@@ -33,6 +35,16 @@ export default {
 
   mounted: function() {
     this.color_picker_width = document.getElementById('color-picker').clientWidth + 'px';
+  },
+
+  methods: {
+    toggleLight(){
+      console.log(`Switch is ${this.toggle}`);
+      var json = {
+        on: this.toggle
+      };
+      axios.put(`http://ip_addr/api/username/lights/3/state`, json);
+    }
   },
 
   name: 'Device',
