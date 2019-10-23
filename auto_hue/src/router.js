@@ -21,7 +21,7 @@ export default new Router({
     {
       path: '/non-auto-light-task',
       name: 'nal',
-      component: () => import('./components/forms/NonAutoLightTask.vue')
+      component: () => import( /* webpackChunkName: "nal" */ './components/forms/NonAutoLightTask.vue')
     },
     {
       path: '/device',
@@ -29,7 +29,7 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('./views/Device.vue')
+      component: () => import( /* webpackChunkName: "device" */ './views/Device.vue')
     }
   ]
 })
