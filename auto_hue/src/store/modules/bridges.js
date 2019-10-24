@@ -7,7 +7,7 @@ const state = {
 };
 
 const getters = {
-    getBridge: (state) => state.bridge.ip_address,
+    getBridge: (state) => state.bridge.internalipaddress,
     getUser: (state) => state.user
 };
 
