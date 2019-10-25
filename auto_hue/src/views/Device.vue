@@ -24,6 +24,8 @@ import axios from "axios";
 
 export default {
   name: "Device",
+  props: ["id"],
+
   data: () => ({
     color: "#000000",
     toggle: false,
@@ -39,11 +41,18 @@ export default {
   },
   watch: {
     color() {
-      axios.put(`http://${this.bridge}/api/${this.user}/lights/1/state/`, {
-        xy: this.color_correction(...this.hexToRgb()),
-        on: true
-      });
+      axios.put(
+        `http://${this.bridge}/api/${this.user}/lights/${this.id}/state/`,
+        {
+          xy: this.color_correction(...this.hexToRgb()),
+          on: true
+        }
+      );
       console.log(this.hexToRgb());
+      console.log(this.id);
+    },
+    device_id() {
+      this.device_id = this.id;
     }
   },
   methods: {

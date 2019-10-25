@@ -7,32 +7,37 @@
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <router-link to="/">
-          <v-btn text> <span class="mr-2">Home</span> </v-btn>
+          <v-btn text>
+            <span class="mr-2">Home</span>
+          </v-btn>
         </router-link>
         <router-link to="/devices">
-          <v-btn text> <span class="mr-2">Devices and Groups</span> </v-btn>
+          <v-btn text>
+            <span class="mr-2">Devices and Groups</span>
+          </v-btn>
         </router-link>
         <router-link to="/non-auto-light-task">
-          <v-btn text> <span class="mr-2">NAL TASK</span> </v-btn>
+          <v-btn text>
+            <span class="mr-2">NAL TASK</span>
+          </v-btn>
         </router-link>
-      <router-link to="/device">
+        <!-- <router-link to="/device">
         <v-btn text> <span class="mr-2">Device Page</span> </v-btn>
-      </router-link>
+        </router-link>-->
       </v-app-bar>
       <v-content>
-        <router-view/>   
+        <router-view />
       </v-content>
     </v-app>
-    <LoadingScreen v-if="loading"/>
+    <LoadingScreen v-if="loading" />
   </div>
-
 </template>
 
 <script>
-import LoadingScreen from './components/LoadingScreen';
+import LoadingScreen from "./components/LoadingScreen";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     LoadingScreen
   },
@@ -42,7 +47,7 @@ export default {
   mounted() {
     // Will end the loading animation after 10 seconds
     setTimeout(() => {
-      this.loading = false
+      this.loading = false;
     }, 10000);
     console.log(this.$hue.data().app_name);
   }
