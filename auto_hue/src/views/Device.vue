@@ -10,9 +10,27 @@
         />
       </v-col>
       <v-col>
-        <v-color-picker id="color-picker" v-model="color" :disabled="!toggle"></v-color-picker>
-        <v-slider :disabled="!toggle" :style="{ width: color_picker_width}"></v-slider>
-        <v-switch v-model="toggle"></v-switch>
+        <v-color-picker
+          id="color-picker"
+          v-model="color"
+          :disabled="disabled"
+        ></v-color-picker>
+        <v-slider
+          v-model="slider"
+          max="254"
+          min="1"
+          :disabled="!toggle"
+          :style="{ width: color_picker_width}"
+          v-on:end="changeBrightness()"
+        ></v-slider>
+        <v-switch
+          v-model="toggle"
+          v-on:change="toggleLight()"
+        ></v-switch>
+        <v-switch
+          v-model="colorloop"
+          v-on:change="toggleColorLoop()"
+        ></v-switch>
       </v-col>
     </v-row>
   </div>
@@ -27,10 +45,13 @@ export default {
   props: ["id"],
 
   data: () => ({
-    color: "#000000",
+    color: '#000000',
     toggle: false,
-    color_picker_width: "300px",
-    bridge: null,
+    slider: 0,
+    colorloop: false,
+    disabled: true,
+    color_picker_width: '300px',
+    bridge: "",
     user: ""
   }),
   mounted: function() {
@@ -99,7 +120,35 @@ export default {
             parseInt(result[3], 16)
           ]
         : null;
+    },
+    toggleLight(){
+      console.log(`Switch is ${this.toggle}`);
+      this.disabled = !this.toggle;
+
+      var json = {
+        on: this.toggle
+      };
+      axios.put(`http://${this.bridge}/api/${this.user}/lights/${this.id}/state/`, json);
+      if (this.colorloop){
+        this.toggleColorLoop();
+      }
+    },
+    changeBrightness(){
+      console.log(`Slider is ${this.slider}`);
+      var json = {
+        bri: this.slider
+      };
+      axios.put(`http://${this.bridge}/api/${this.user}/lights/${this.id}/state/`, json);
+    },
+    toggleColorLoop(){
+      console.log(`Colorloop is ${this.colorloop}`);
+      this.disabled = this.colorloop || !this.toggle;
+      var json = {
+        effect: `${this.colorloop ? 'colorloop' : 'none'}`
+      };
+      axios.put(`http://${this.bridge}/api/${this.user}/lights/${this.id}/state/`, json);
     }
-  }
+  },
+
 };
 </script>
