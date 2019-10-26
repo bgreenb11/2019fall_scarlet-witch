@@ -8,17 +8,21 @@
         <v-color-picker
           id="color-picker"
           v-model="color"
-          :disabled="!toggle"
+          :disabled="disabled"
         ></v-color-picker>
         <v-slider
           v-model="slider"
-          :disabled="!toggle"
+          :disabled="disabled"
           :style="{ width: color_picker_width}"
           v-on:end="changeBrightness()"
         ></v-slider>
         <v-switch
           v-model="toggle"
           v-on:change="toggleLight()"
+        ></v-switch>
+        <v-switch
+          v-model="colorloop"
+          v-on:change="toggleColorLoop()"
         ></v-switch>
       </v-col>
     </v-row>
@@ -33,6 +37,8 @@ export default {
       color: '#000000',
       toggle: false,
       slider: 0,
+      colorloop: false,
+      disabled: true,
       color_picker_width: '300px'
   }),
 
@@ -43,15 +49,28 @@ export default {
   methods: {
     toggleLight(){
       console.log(`Switch is ${this.toggle}`);
+      this.disabled = !this.toggle;
+
       var json = {
         on: this.toggle
       };
       axios.put(`http://ip_addr/api/username/lights/3/state`, json);
+      if (this.colorloop){
+        this.toggleColorLoop();
+      }
     },
     changeBrightness(){
       console.log(`Slider is ${this.slider}`);
       var json = {
         bri: this.slider
+      };
+      axios.put(`http://ip_addr/api/username/lights/3/state`, json);
+    },
+    toggleColorLoop(){
+      console.log(`Colorloop is ${this.colorloop}`);
+      this.disabled = this.colorloop || !this.toggle;
+      var json = {
+        effect: `${this.colorloop ? 'colorloop' : 'none'}`
       };
       axios.put(`http://ip_addr/api/username/lights/3/state`, json);
     }
