@@ -2,11 +2,13 @@
  */
 
 const state = {
-    devices: []
+    devices: [],
+    groups: [],
 };
 
 const getters = {
-    allDevices: (state) => state.devices
+    allDevices: (state) => state.devices,
+    allGroups: (state) => state.groups
 };
 
 const actions = {
@@ -15,10 +17,28 @@ const actions = {
     }, devices) {
         commit('addDevices', devices)
     },
+    addGroups({
+        commit
+    }, groups) {
+        commit('addGroups', groups)
+    },
 };
 
 const mutations = {
-    addDevices: (state, devices) => (state.devices.push(...devices))
+    addDevices: (state, devices) => {
+        devices.forEach(device => {
+            if (!state.devices.map(d => d.id).find(d => d === device.id)) {
+                state.devices.push(device)
+            }
+        });
+    },
+    addGroups: (state, groups) => {
+        groups.forEach(group => {
+            if (!state.groups.map(g => g.id).find(g => g === group.id)) {
+                state.groups.push(group)
+            }
+        });
+    }
 };
 
 export default {
