@@ -24,31 +24,31 @@
             v-if="index === 0"
             width="300"
             height="300"
-            src="../assets/HueBridgeSetup/huebridge.svg"
+            src="@/assets/HueBridgeSetup/huebridge.svg"
           />
           <v-img
-            v-if="index === 1 && bridges.length === 0"
+            v-if="index === 1"
             width="300"
             height="300"
-            src="../assets/HueBridgeSetup/huebridgefail.svg"
+            src="@/assets/HueBridgeSetup/huebridgefail.svg"
           />
           <v-img
             v-if="index === 2"
             width="300"
             height="300"
-            src="../assets/HueBridgeSetup/huebridgepress.svg"
+            src="@/assets/HueBridgeSetup/huebridgepress.svg"
           />
           <v-img
             v-if="index === 3"
             width="300"
             height="300"
-            src="../assets/HueBridgeSetup/huebridgesuccess.svg"
+            src="@/assets/HueBridgeSetup/huebridgesuccess.svg"
           />
           <v-img
             v-if="index === 4"
             width="300"
             height="300"
-            src="../assets/HueBridgeSetup/huebridgefail.svg"
+            src="@/assets/HueBridgeSetup/huebridgefail.svg"
           />
         </v-col>
       </v-row>
@@ -75,11 +75,7 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-row
-        v-if="index !== 1 || (index === 1 && bridges.length === 0)"
-        no-gutters
-        justify="space-around"
-      >
+      <v-row no-gutters justify="space-around">
         <v-col align="center">
           <v-btn :disabled="loading" :loading="loading" block text v-on:click="navigate">Next</v-btn>
           <v-btn
@@ -130,7 +126,7 @@ export default {
   },
   methods: {
     ...mapGetters(["getBridge"]),
-    ...mapActions(["setBridge"]),
+    ...mapActions(["setBridge", "setUser"]),
     navigate: function() {
       console.log(this.index);
       switch (this.index) {
@@ -147,6 +143,7 @@ export default {
             this.bridges.push(this.bridge);
             this.index += 1;
           }
+
           break;
         case 2:
           this.loading = true;
@@ -160,24 +157,23 @@ export default {
           this.loading = true;
           this.start_linkBridge();
           break;
+        default:
+          break;
       }
     },
     findAllBridges: function() {
-      axios
-        .get("https://discovery.meethue.com")
-        .then(response => {
-          this.connected = true;
-          this.bridges = response.data;
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      axios.get("https://discovery.meethue.com").then(response => {
+        this.connected = true;
+        this.bridges = response.data;
+      });
     },
     chooseBridge: function(b) {
+      console.log(this.index);
       this.bridge = b;
       this.index += 1;
     },
     start_linkBridge: function() {
+      console.log(this.index);
       setTimeout(() => {
         this.linkBridge();
       }, 10000);
@@ -191,16 +187,18 @@ export default {
           .post(`http://${this.bridge.internalipaddress}/api/`, json)
           .then(response => {
             this.loading = false;
+            console.log(this.loading);
             try {
               this.hash_username = response.data[0].success.username;
+              this.setUser(this.hash_username);
               this.index = this.pages.length - 2;
             } catch (error) {
               console.error(error);
+              this.index = this.pages.length - 1;
             }
           })
           .catch(error => {
             console.log(error);
-            this.index = this.pages.length - 1;
           });
       } catch (error) {
         console.error(error);
@@ -208,6 +206,9 @@ export default {
         // Reset setup or close out
       }
     }
+  },
+  watch: {
+    loader() {}
   }
 };
 </script>

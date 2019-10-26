@@ -3,10 +3,12 @@
 
 const state = {
     bridge: null,
+    user: ""
 };
 
 const getters = {
-    getBridge: (state) => state.bridge
+    getBridge: (state) => state.bridge.internalipaddress,
+    getUser: (state) => state.user
 };
 
 const actions = {
@@ -15,12 +17,20 @@ const actions = {
     }, bridge) {
         commit('setBridge', bridge)
     },
+    setUser({
+        commit
+    }, user) {
+        commit('setUser', user)
+    }
 };
 
 const mutations = {
     setBridge: (state, bridge) => {
         state.bridge = bridge;
     },
+    setUser: (state, user) => {
+        state.user = user
+    }
 };
 
 export default {
