@@ -130,7 +130,7 @@ export default {
   },
   methods: {
     ...mapGetters(["getBridge"]),
-    ...mapActions(["setBridge"]),
+    ...mapActions(["setBridge", "setUser"]),
     navigate: function() {
       console.log(this.index);
       switch (this.index) {
@@ -193,6 +193,7 @@ export default {
             this.loading = false;
             try {
               this.hash_username = response.data[0].success.username;
+              this.setUser(hash_username);
               this.index = this.pages.length - 2;
             } catch (error) {
               console.error(error);

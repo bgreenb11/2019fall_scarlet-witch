@@ -2,47 +2,13 @@
  */
 
 const state = {
-    devices: [{
-            id: 1,
-            name: "Testing White Device",
-            power: true,
-            color: null
-        },
-        {
-            id: 2,
-            name: "Testing Color Device",
-            power: true,
-            color: "orange"
-        },
-        {
-            id: 3,
-            name: "Testing Color Device 1",
-            power: true,
-            color: "gray"
-        },
-        {
-            id: 4,
-            name: "Testing Off Device",
-            power: false,
-            color: null
-        },
-        {
-            id: 5,
-            name: "Testing Off Color Device",
-            power: false,
-            color: "orange"
-        },
-        {
-            id: 6,
-            name: "Testing Color Device",
-            power: true,
-            color: "red"
-        },
-    ]
+    devices: [],
+    groups: [],
 };
 
 const getters = {
-    allDevices: (state) => state.devices
+    allDevices: (state) => state.devices,
+    allGroups: (state) => state.groups
 };
 
 const actions = {
@@ -51,10 +17,28 @@ const actions = {
     }, devices) {
         commit('addDevices', devices)
     },
+    addGroups({
+        commit
+    }, groups) {
+        commit('addGroups', groups)
+    },
 };
 
 const mutations = {
-    addDevices: (state, devices) => (state.devices = devices)
+    addDevices: (state, devices) => {
+        devices.forEach(device => {
+            if (!state.devices.map(d => d.id).find(d => d === device.id)) {
+                state.devices.push(device)
+            }
+        });
+    },
+    addGroups: (state, groups) => {
+        groups.forEach(group => {
+            if (!state.groups.map(g => g.id).find(g => g === group.id)) {
+                state.groups.push(group)
+            }
+        });
+    }
 };
 
 export default {

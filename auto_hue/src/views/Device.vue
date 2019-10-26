@@ -42,6 +42,8 @@ import axios from "axios";
 
 export default {
   name: "Device",
+  props: ["id"],
+
   data: () => ({
     color: '#000000',
     toggle: false,
@@ -60,11 +62,18 @@ export default {
   },
   watch: {
     color() {
-      axios.put(`http://${this.bridge}/api/${this.user}/lights/3/state/`, {
-        xy: this.color_correction(...this.hexToRgb()),
-        on: true
-      });
+      axios.put(
+        `http://${this.bridge}/api/${this.user}/lights/${this.id}/state/`,
+        {
+          xy: this.color_correction(...this.hexToRgb()),
+          on: true
+        }
+      );
       console.log(this.hexToRgb());
+      console.log(this.id);
+    },
+    device_id() {
+      this.device_id = this.id;
     }
   },
   methods: {
@@ -119,7 +128,7 @@ export default {
       var json = {
         on: this.toggle
       };
-      axios.put(`http://${this.bridge}/api/${this.user}/lights/3/state/`, json);
+      axios.put(`http://${this.bridge}/api/${this.user}/lights/${this.id}/state/`, json);
       if (this.colorloop){
         this.toggleColorLoop();
       }
@@ -129,7 +138,7 @@ export default {
       var json = {
         bri: this.slider
       };
-      axios.put(`http://${this.bridge}/api/${this.user}/lights/3/state/`, json);
+      axios.put(`http://${this.bridge}/api/${this.user}/lights/${this.id}/state/`, json);
     },
     toggleColorLoop(){
       console.log(`Colorloop is ${this.colorloop}`);
@@ -137,14 +146,9 @@ export default {
       var json = {
         effect: `${this.colorloop ? 'colorloop' : 'none'}`
       };
-      axios.put(`http://${this.bridge}/api/${this.user}/lights/3/state/`, json);
+      axios.put(`http://${this.bridge}/api/${this.user}/lights/${this.id}/state/`, json);
     }
   },
 
-  name: 'Device',
-  props: {
-  },
-  components: {
-  },
 };
 </script>
