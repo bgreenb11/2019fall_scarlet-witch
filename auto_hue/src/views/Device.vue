@@ -11,8 +11,10 @@
           :disabled="!toggle"
         ></v-color-picker>
         <v-slider
+          v-model="slider"
           :disabled="!toggle"
           :style="{ width: color_picker_width}"
+          v-on:end="changeBrightness()"
         ></v-slider>
         <v-switch
           v-model="toggle"
@@ -30,6 +32,7 @@ export default {
   data: () => ({
       color: '#000000',
       toggle: false,
+      slider: 0,
       color_picker_width: '300px'
   }),
 
@@ -42,6 +45,13 @@ export default {
       console.log(`Switch is ${this.toggle}`);
       var json = {
         on: this.toggle
+      };
+      axios.put(`http://ip_addr/api/username/lights/3/state`, json);
+    },
+    changeBrightness(){
+      console.log(`Slider is ${this.slider}`);
+      var json = {
+        bri: this.slider
       };
       axios.put(`http://ip_addr/api/username/lights/3/state`, json);
     }
