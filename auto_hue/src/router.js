@@ -33,7 +33,7 @@ export default new Router({
       component: () => import( /* webpackChunkName: "device" */ './views/Device.vue')
     },
     {
-      path: '/group',
+      path: '/group/:id',
       name: 'group',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route

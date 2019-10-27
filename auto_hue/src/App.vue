@@ -24,9 +24,9 @@
         <!-- <router-link to="/device">
         <v-btn text> <span class="mr-2">Device Page</span> </v-btn>
         </router-link>-->
-      <router-link to="/group">
+      <!-- <router-link to="/group">
         <v-btn text> <span class="mr-2">Group Page</span> </v-btn>
-      </router-link>
+      </router-link> -->
       </v-app-bar>
       <v-content>
         <router-view />

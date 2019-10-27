@@ -8,7 +8,11 @@ const state = {
 
 const getters = {
     allDevices: (state) => state.devices,
-    allGroups: (state) => state.groups
+    allGroups: (state) => state.groups,
+    devicesByIds: (state, ids) => {
+        console.log(ids)
+        state.devices.filter(device => ids.find(id => id === device.id))
+    } 
 };
 
 const actions = {
