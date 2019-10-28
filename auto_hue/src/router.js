@@ -19,11 +19,6 @@ export default new Router({
       component: () => import( /* webpackChunkName: "devices" */ './views/Devices.vue')
     },
     {
-      path: '/non-auto-light-task',
-      name: 'nal',
-      component: () => import( /* webpackChunkName: "nal" */ './components/forms/NonAutoLightTask.vue')
-    },
-    {
       path: '/device/:id',
       name: 'device',
       props: true,
@@ -31,6 +26,15 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () => import( /* webpackChunkName: "device" */ './views/Device.vue')
-    }
+    },
+    {
+      path: '/schedule/:id?',
+      name: 'schedule',
+      props: true,
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import( /* webpackChunkName: "device" */ './views/Schedule.vue')
+    },
   ]
 })
