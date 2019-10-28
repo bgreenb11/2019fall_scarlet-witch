@@ -17,13 +17,34 @@
       </Carousel>
       <h1>Groups</h1>
       <Carousel :navigationEnabled="true" :perPageCustom="[[480, 2], [768, 3]]">
-        <Slide v-for="group in groups" :key="group.id" class="device">
+        <Slide v-for="group in groups" :key="group.id" class="group">
           <v-card class="mx-auto" max-width="344" outlined>
             <v-card-title>{{ group.name }}</v-card-title>
             <v-card-text>Color: {{ group.action.xy ? group.action.xy : "None" }}</v-card-text>
             <router-link :to="{name: 'group', params: {id: group.id}}">
               <v-btn text>
                 <span class="mr-2">Group Page</span>
+              </v-btn>
+            </router-link>
+          </v-card>
+        </Slide>
+      </Carousel>
+      <h1>
+        Schedules
+        <router-link :to="{name: 'schedule'}">
+          <v-btn text>
+            <span class="mr-2">Create Schedule</span>
+          </v-btn>
+        </router-link>
+      </h1>
+      <Carousel :navigationEnabled="true" :perPageCustom="[[480, 2], [768, 3]]">
+        <Slide v-for="schedule in schedules" :key="schedule.id" class="schedule">
+          <v-card class="mx-auto" max-width="344" outlined>
+            <v-card-title>{{ schedule.name }}</v-card-title>
+            <v-card-text>Color: {{ schedule.description }}</v-card-text>
+            <router-link :to="{name: 'schedule', params: {id: schedule.id}}">
+              <v-btn text>
+                <span class="mr-2">Schedule Page</span>
               </v-btn>
             </router-link>
           </v-card>
@@ -44,6 +65,7 @@ export default {
     return {
       devices: [],
       groups: [],
+      schedules: [],
       user: "",
       bridge: ""
     };
@@ -58,19 +80,24 @@ export default {
     this.findDevices();
     this.devices = this.allDevices();
     this.groups = this.allGroups();
+    this.schedules = this.allSchedules();
   },
   methods: {
-    ...mapActions(["addDevices", "addGroups"]),
-    ...mapGetters(["allDevices", "getBridge", "getUser", "allGroups"]),
+    ...mapActions(["addDevices", "addGroups", "addSchedules"]),
+    ...mapGetters([
+      "allDevices",
+      "getBridge",
+      "getUser",
+      "allGroups",
+      "allSchedules"
+    ]),
     findDevices() {
       axios
         .get(`http://${this.bridge}/api/${this.user}/lights`)
         .then(response => {
-          console.log(Object.keys(response.data));
           let devices = [];
           Object.keys(response.data).forEach(device => {
             response.data[device]["id"] = device;
-            console.log(response.data[device]);
             devices.push(response.data[device]);
           });
           this.addDevices(devices);
@@ -78,14 +105,22 @@ export default {
       axios
         .get(`http://${this.bridge}/api/${this.user}/groups`)
         .then(response => {
-          console.log(Object.keys(response.data));
           let groups = [];
           Object.keys(response.data).forEach(group => {
             response.data[group]["id"] = group;
-            console.log(response.data[group]);
             groups.push(response.data[group]);
           });
           this.addGroups(groups);
+        });
+      axios
+        .get(`http://${this.bridge}/api/${this.user}/schedules`)
+        .then(response => {
+          let schedules = [];
+          Object.keys(response.data).forEach(schedule => {
+            response.data[schedule]["id"] = schedule;
+            schedules.push(response.data[schedule]);
+          });
+          this.addSchedules(schedules);
         });
     }
   }
