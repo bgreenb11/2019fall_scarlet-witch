@@ -8,21 +8,18 @@
           width="300"
           v-bind:style="{backgroundColor: color}"
         />
-        <!-- <v-select 
+        <v-select
           v-model="device_id"
           v-on:change="$router.push({name: 'device', params: {id: device_id}})"
-          :items="light_names"
-          item-value="light_ids"
-          label="Choose Device"
+          :items="lights"
+          item_name="name"
+          item-value="id"
+          label="Go to device page"
           :style="{ width: color_picker_width }"
-        ></v-select> -->
+        ></v-select>
       </v-col>
       <v-col>
-        <v-color-picker
-          id="color-picker"
-          v-model="color"
-          :disabled="disabled"
-        ></v-color-picker>
+        <v-color-picker id="color-picker" v-model="color" :disabled="disabled"></v-color-picker>
         <v-slider
           v-model="slider"
           max="254"
@@ -32,16 +29,8 @@
           v-on:end="changeBrightness()"
           label="Brightness"
         ></v-slider>
-        <v-switch
-          v-model="colorloop"
-          v-on:change="toggleColorLoop()"
-          label="ColorLoop"
-        ></v-switch>
-        <v-switch
-          v-model="toggle"
-          v-on:change="toggleLight()"
-          label="Power On/Off"
-        ></v-switch>
+        <v-switch v-model="colorloop" v-on:change="toggleColorLoop()" label="ColorLoop"></v-switch>
+        <v-switch v-model="toggle" v-on:change="toggleLight()" label="Power On/Off"></v-switch>
       </v-col>
     </v-row>
   </div>
@@ -56,19 +45,16 @@ export default {
   props: ["id"],
 
   data: () => ({
-    color: '#000000',
+    color: "#000000",
     toggle: false,
     slider: 0,
     colorloop: false,
     disabled: true,
-    color_picker_width: '300px',
+    color_picker_width: "300px",
     bridge: "",
     user: "",
     device_id: 0,
     lights: []
-
-
-
   }),
   mounted: function() {
     this.color_picker_width =
@@ -76,20 +62,23 @@ export default {
     this.bridge = this.getBridge();
     this.user = this.getUser();
 
-    var ids;
-    axios.get(`http://${this.bridge}/api/${this.user}/groups/${this.id}/`).then(response => {
-      ids = response.data.lights;
-      console.log(ids)
-      this.lights = this.devicesByIds(ids)
-      // console.log(this.lights)
-    });
+    axios
+      .get(`http://${this.bridge}/api/${this.user}/groups/${this.id}/`)
+      .then(response => {
+        let ids = response.data.lights;
+        console.log(ids);
+        this.lights = this.allDevices().filter(device => ids.find(device.id));
+      });
   },
   watch: {
     color() {
-      axios.put(`http://${this.bridge}/api/${this.user}/groups/${this.id}/action/`, {
-        xy: this.color_correction(...this.hexToRgb()),
-        on: true
-      });
+      axios.put(
+        `http://${this.bridge}/api/${this.user}/groups/${this.id}/action/`,
+        {
+          xy: this.color_correction(...this.hexToRgb()),
+          on: true
+        }
+      );
       console.log(this.hexToRgb());
     }
   },
@@ -126,7 +115,7 @@ export default {
         Z
       };
     },
-    ...mapGetters(["getBridge", "getUser", "devicesByIds"]),
+    ...mapGetters(["getBridge", "getUser", "allDevices"]),
     // Code borrowed from https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
     hexToRgb() {
       let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.color);
@@ -138,7 +127,7 @@ export default {
           ]
         : null;
     },
-    toggleLight(){
+    toggleLight() {
       console.log(`Switch is ${this.toggle}`);
       console.log(`Device is ${this.device_id}`);
       this.disabled = !this.toggle;
@@ -146,25 +135,34 @@ export default {
       var json = {
         on: this.toggle
       };
-      axios.put(`http://${this.bridge}/api/${this.user}/groups/${this.id}/action/`, json);
-      if (this.colorloop){
+      axios.put(
+        `http://${this.bridge}/api/${this.user}/groups/${this.id}/action/`,
+        json
+      );
+      if (this.colorloop) {
         this.toggleColorLoop();
       }
     },
-    changeBrightness(){
+    changeBrightness() {
       console.log(`Slider is ${this.slider}`);
       var json = {
         bri: this.slider
       };
-      axios.put(`http://${this.bridge}/api/${this.user}/groups/${this.id}/action/`, json);
+      axios.put(
+        `http://${this.bridge}/api/${this.user}/groups/${this.id}/action/`,
+        json
+      );
     },
-    toggleColorLoop(){
+    toggleColorLoop() {
       console.log(`Colorloop is ${this.colorloop}`);
       this.disabled = this.colorloop || !this.toggle;
       var json = {
-        effect: `${this.colorloop ? 'colorloop' : 'none'}`
+        effect: `${this.colorloop ? "colorloop" : "none"}`
       };
-      axios.put(`http://${this.bridge}/api/${this.user}/groups/${this.id}/action/`, json);
+      axios.put(
+        `http://${this.bridge}/api/${this.user}/groups/${this.id}/action/`,
+        json
+      );
     }
   }
 };
