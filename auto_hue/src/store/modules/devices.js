@@ -4,11 +4,13 @@
 const state = {
     devices: [],
     groups: [],
+    schedules: [],
 };
 
 const getters = {
     allDevices: (state) => state.devices,
-    allGroups: (state) => state.groups
+    allGroups: (state) => state.groups,
+    allSchedules: (state) => state.schedules
 };
 
 const actions = {
@@ -22,6 +24,11 @@ const actions = {
     }, groups) {
         commit('addGroups', groups)
     },
+    addSchedules({
+        commit
+    }, schedules) {
+        commit('addSchedules', schedules)
+    }
 };
 
 const mutations = {
@@ -36,6 +43,13 @@ const mutations = {
         groups.forEach(group => {
             if (!state.groups.map(g => g.id).find(g => g === group.id)) {
                 state.groups.push(group)
+            }
+        });
+    },
+    addSchedules: (state, schedules) => {
+        schedules.forEach(schedule => {
+            if (!state.schedules.map(s => s.id).find(s => s === schedule.id)) {
+                state.schedules.push(schedule)
             }
         });
     }

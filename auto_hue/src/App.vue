@@ -16,14 +16,6 @@
             <span class="mr-2">Devices and Groups</span>
           </v-btn>
         </router-link>
-        <router-link to="/non-auto-light-task">
-          <v-btn text>
-            <span class="mr-2">NAL TASK</span>
-          </v-btn>
-        </router-link>
-        <!-- <router-link to="/device">
-        <v-btn text> <span class="mr-2">Device Page</span> </v-btn>
-        </router-link>-->
       </v-app-bar>
       <v-content>
         <router-view />
