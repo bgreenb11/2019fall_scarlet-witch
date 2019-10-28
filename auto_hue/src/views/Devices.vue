@@ -38,11 +38,7 @@
         </router-link>
       </h1>
       <Carousel :navigationEnabled="true" :perPageCustom="[[480, 2], [768, 3]]">
-        <Slide
-          v-for="schedule in schedules.filter(schedule => schedule.id !== undefined)"
-          :key="schedule.id"
-          class="schedule"
-        >
+        <Slide v-for="schedule in schedules" :key="schedule.id" class="schedule">
           <v-card class="mx-auto" max-width="344" outlined>
             <v-card-title>{{ schedule.name }}</v-card-title>
             <v-card-text>Color: {{ schedule.description }}</v-card-text>

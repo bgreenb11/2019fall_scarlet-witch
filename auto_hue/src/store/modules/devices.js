@@ -10,7 +10,10 @@ const state = {
 const getters = {
     allDevices: (state) => state.devices,
     allGroups: (state) => state.groups,
-    allSchedules: (state) => state.schedules,
+    allSchedules: (state) => {
+        state.schedules = state.schedules.filter(schedule => schedule.id !== undefined)
+        return state.schedules
+    },
 };
 
 const actions = {
@@ -59,7 +62,7 @@ const mutations = {
         });
     },
     removeSchedule: (state, id) => {
-        state.schedules = state.schedules.filter(schedule => schedule.id != id)
+        state.schedules = state.schedules.filter(schedule => schedule.id !== id)
     }
 };
 
