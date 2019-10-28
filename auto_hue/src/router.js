@@ -28,7 +28,7 @@ export default new Router({
       component: () => import( /* webpackChunkName: "device" */ './views/Device.vue')
     },
     {
-      path: '/schedule/',
+      path: '/schedule/:id?',
       name: 'schedule',
       props: true,
       // route level code-splitting

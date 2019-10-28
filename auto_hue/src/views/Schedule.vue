@@ -31,10 +31,8 @@
           item-value="id"
           label="Choose Group"
           :style="{ width: color_picker_width }"
+          v-if="id === undefined"
         ></v-select>
-        <v-btn text @click="createSchedule">
-          <span class="mr-2">Create Schedule</span>
-        </v-btn>
       </v-col>
       <v-col>
         <v-color-picker
@@ -51,13 +49,35 @@
         ></v-slider>
         <v-switch v-model="config.colorloop" label="ColorLoop"></v-switch>
         <v-switch v-model="config.toggle" label="Power On/Off"></v-switch>
+        <router-link :to="{name: 'devices'}">
+          <v-btn
+            raised
+            tile
+            color="orange darken-2"
+            @click="(id === undefined) ? createSchedule() : editSchedule()"
+          >
+            <span class="mr-2">{{(id === undefined) ? "Create Schedule" : "Edit Schedule"}}</span>
+          </v-btn>
+        </router-link>
+        <router-link :to="{name: 'devices'}">
+          <v-btn
+            class="mx-2"
+            raised
+            tile
+            color="red darken-2"
+            v-if="id !== undefined"
+            @click="deleteSchedule()"
+          >
+            <span class="mr-2">Delete Schedule</span>
+          </v-btn>
+        </router-link>
       </v-col>
     </v-row>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import axios from "axios";
 
 export default {
@@ -70,7 +90,9 @@ export default {
     groups: [],
     bridge: "",
     user: "",
+    schedule: {},
     config: {
+      address: "",
       name: "",
       desc: "",
       time: "00:00:00",
@@ -86,6 +108,24 @@ export default {
     this.bridge = this.getBridge();
     this.user = this.getUser();
     this.groups = this.allGroups();
+    if (this.id !== undefined) {
+      this.schedule = this.allSchedules().find(
+        schedule => schedule.id == this.id
+      );
+      this.config.name = this.schedule.name;
+      this.config.desc = this.schedule.description;
+      this.config.time = this.schedule.localtime.split("T")[1];
+      this.config.toggle =
+        this.schedule.command.body.flag || this.schedule.command.body.on;
+      this.config.slider =
+        this.schedule.command.bri === undefined
+          ? 255
+          : this.schedule.command.bri;
+      this.config.address = this.schedule.command.address;
+      this.config.colorloop =
+        this.schedule.command.body.effect !== undefined &&
+        this.schedule.command.body.effect === "colorloop";
+    }
   },
   watch: {},
   methods: {
@@ -121,7 +161,8 @@ export default {
         Z
       };
     },
-    ...mapGetters(["getBridge", "getUser", "allGroups"]),
+    ...mapGetters(["getBridge", "getUser", "allGroups", "allSchedules"]),
+    ...mapActions(["addSchedules", "removeSchedule"]),
     // Code borrowed from https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
     hexToRgb() {
       let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(this.color);
@@ -157,7 +198,50 @@ export default {
       axios
         .post(`http://${this.bridge}/api/${this.user}/schedules`, schedule)
         .then(response => console.log(response));
+      this.addSchedules([schedule]);
+    },
+    editSchedule() {
+      let command = {
+        address: this.config.address,
+        method: "PUT",
+        body: {
+          on: this.config.toggle,
+          ...(this.color != "#000000" &&
+            !this.config.colorloop && {
+              xy: this.color_correction(...this.hexToRgb())
+            }),
+          bri: this.config.slider,
+          ...(this.config.colorloop && { effect: "colorloop" })
+        }
+      };
+      let schedule = {
+        name: this.config.name,
+        description: this.config.desc,
+        command: command,
+        localtime: `W127/T${this.config.time}`
+      };
+
+      axios.put(
+        `http://${this.bridge}/api/${this.user}/schedules/${this.id}`,
+        schedule
+      );
+
+      axios
+        .get(`http://${this.bridge}/api/${this.user}/schedules/${this.id}`)
+        .then(response => {
+          schedule = response.data;
+          schedule.id = this.id;
+          console.log(response.data);
+        });
+      this.removeSchedule(this.id);
       console.log(schedule);
+      this.addSchedules([schedule]);
+    },
+    deleteSchedule() {
+      axios.delete(
+        `http://${this.bridge}/api/${this.user}/schedules/${this.id}`
+      );
+      this.removeSchedule(this.id);
     }
   }
 };

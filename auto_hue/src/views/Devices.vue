@@ -38,15 +38,19 @@
         </router-link>
       </h1>
       <Carousel :navigationEnabled="true" :perPageCustom="[[480, 2], [768, 3]]">
-        <Slide v-for="schedule in schedules" :key="schedule.id" class="schedule">
+        <Slide
+          v-for="schedule in schedules.filter(schedule => schedule.id !== undefined)"
+          :key="schedule.id"
+          class="schedule"
+        >
           <v-card class="mx-auto" max-width="344" outlined>
             <v-card-title>{{ schedule.name }}</v-card-title>
             <v-card-text>Color: {{ schedule.description }}</v-card-text>
-            <!-- <router-link :to="{name: 'schedule', params: {id: schedule.id}}">
+            <router-link :to="{name: 'schedule', params: {id: schedule.id}}">
               <v-btn text>
                 <span class="mr-2">Schedule Page</span>
               </v-btn>
-            </router-link>-->
+            </router-link>
           </v-card>
         </Slide>
       </Carousel>
@@ -95,11 +99,9 @@ export default {
       axios
         .get(`http://${this.bridge}/api/${this.user}/lights`)
         .then(response => {
-          console.log(Object.keys(response.data));
           let devices = [];
           Object.keys(response.data).forEach(device => {
             response.data[device]["id"] = device;
-            console.log(response.data[device]);
             devices.push(response.data[device]);
           });
           this.addDevices(devices);
@@ -107,11 +109,9 @@ export default {
       axios
         .get(`http://${this.bridge}/api/${this.user}/groups`)
         .then(response => {
-          console.log(Object.keys(response.data));
           let groups = [];
           Object.keys(response.data).forEach(group => {
             response.data[group]["id"] = group;
-            console.log(response.data[group]);
             groups.push(response.data[group]);
           });
           this.addGroups(groups);
@@ -119,11 +119,9 @@ export default {
       axios
         .get(`http://${this.bridge}/api/${this.user}/schedules`)
         .then(response => {
-          console.log(Object.keys(response.data));
           let schedules = [];
           Object.keys(response.data).forEach(schedule => {
             response.data[schedule]["id"] = schedule;
-            console.log(response.data[schedule]);
             schedules.push(response.data[schedule]);
           });
           this.addSchedules(schedules);

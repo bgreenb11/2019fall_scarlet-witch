@@ -10,7 +10,7 @@ const state = {
 const getters = {
     allDevices: (state) => state.devices,
     allGroups: (state) => state.groups,
-    allSchedules: (state) => state.schedules
+    allSchedules: (state) => state.schedules,
 };
 
 const actions = {
@@ -28,6 +28,11 @@ const actions = {
         commit
     }, schedules) {
         commit('addSchedules', schedules)
+    },
+    removeSchedule({
+        commit
+    }, id) {
+        commit('removeSchedule', id)
     }
 };
 
@@ -52,6 +57,9 @@ const mutations = {
                 state.schedules.push(schedule)
             }
         });
+    },
+    removeSchedule: (state, id) => {
+        state.schedules = state.schedules.filter(schedule => schedule.id != id)
     }
 };
 
