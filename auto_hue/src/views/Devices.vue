@@ -7,6 +7,7 @@
           <v-card class="mx-auto" max-width="344" outlined>
             <v-card-title>{{ device.name }}</v-card-title>
             <v-card-text>Color: {{ device.state.xy ? device.state.xy : "None" }}</v-card-text>
+            <img src="../assets/gradient_single.png" width="172">
             <router-link :to="{name: 'device', params: {id: device.id}}">
               <v-btn text>
                 <span class="mr-2">Light Page</span>
@@ -21,6 +22,7 @@
           <v-card class="mx-auto" max-width="344" outlined>
             <v-card-title>{{ group.name }}</v-card-title>
             <v-card-text>Color: {{ group.action.xy ? group.action.xy : "None" }}</v-card-text>
+            <img src="../assets/gradient_group.png" width="172">
             <router-link :to="{name: 'group', params: {id: group.id}}">
               <v-btn text>
                 <span class="mr-2">Group Page</span>
