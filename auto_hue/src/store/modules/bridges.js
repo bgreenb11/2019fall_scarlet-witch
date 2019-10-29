@@ -4,9 +4,9 @@
 const state = {
     bridge: {
         id: "Manual Entry",
-        internalipaddress: "172.16.0.12"
+        internalipaddress: "192.168.1.145"
     },
-    user: "VJbh7XBfKSZ7UB3yiYoLUCzMs-XxGx1iXoYp0EGJ"
+    user: "oKTQBmOGamkYpnHaL48p58v0VYR1UrANuNQwcZLt"
 };
 
 const getters = {
