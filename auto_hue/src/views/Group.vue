@@ -12,7 +12,7 @@
           v-model="device_id"
           v-on:change="$router.push({name: 'device', params: {id: device_id}})"
           :items="lights"
-          item_name="name"
+          item-text="name"
           item-value="id"
           label="Go to device page"
           :style="{ width: color_picker_width }"
@@ -67,7 +67,7 @@ export default {
       .then(response => {
         let ids = response.data.lights;
         console.log(ids);
-        this.lights = this.allDevices().filter(device => ids.find(device.id));
+        this.lights = this.allDevices().filter(device => ids.find(id => id === device.id));
       });
   },
   watch: {
