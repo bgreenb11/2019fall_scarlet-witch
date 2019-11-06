@@ -7,7 +7,7 @@
           <v-card class="mx-auto" max-width="344" outlined>
             <v-card-title>{{ device.name }}</v-card-title>
             <v-card-text>Color: {{ device.state.xy ? device.state.xy : "None" }}</v-card-text>
-            <img src="../assets/gradient_single.png" width="172">
+            <img :src="require(`../assets/${device.productname === 'Hue white lamp' ? 'white': 'gradient'}_single.png`)" width="172">
             <router-link :to="{name: 'device', params: {id: device.id}}">
               <v-btn text>
                 <span class="mr-2">Light Page</span>
