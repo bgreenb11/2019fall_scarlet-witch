@@ -263,7 +263,9 @@ export default {
       );
       this.removeSchedule(this.id);
     },
-
+    weekCalc(day, toggle){
+      this.config.days += (toggle) ? 2**day : -(2**day);
+    }
   }
 };
 </script>
