@@ -16,11 +16,6 @@
             <span class="mr-2">Devices and Groups</span>
           </v-btn>
         </router-link>
-        <router-link to="/spotifylogin">
-          <v-btn text>
-            <span class="mr-2">Lightshow</span>
-          </v-btn>
-        </router-link>
       </v-app-bar>
       <v-content>
         <router-view />
@@ -41,12 +36,11 @@ export default {
   data: () => ({
     loading: true
   }),
-  mounted() {
+  created() {
     // Will end the loading animation after 10 seconds
     setTimeout(() => {
       this.loading = false;
     }, 10000);
-    console.log(this.$hue.data().app_name);
   }
 };
 </script>

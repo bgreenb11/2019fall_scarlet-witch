@@ -1,11 +1,10 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
-import Lightshow from "./views/Lightshow.vue";
 
 Vue.use(Router);
 
-const router =  new Router({
+const router = new Router({
   routes: [
     {
       path: "/",
@@ -52,32 +51,50 @@ const router =  new Router({
         import(/* webpackChunkName: "device" */ "./views/Schedule.vue")
     },
 
-    // Spotify web player routes
-    {
-      path: "/lightshow",
-      name: "lightshow",
-      component: Lightshow,
-      beforeEnter() {
-          router.push("/spotifylogin");
-      }
-    },
-    {
-      path: "/spotifylogin",
-      name: "spotifylogin",
-      beforeEnter(to, from, next) {
-        let domain = "https://accounts.spotify.com/authorize";
-        let type = "token";
-        let clientID = "9522a51415704f4c91b4829149e66c9f";
-        let callback = encodeURIComponent("http://localhost:8080/lightshow");
+    // // Spotify web player routes
+    // {
+    //   path: "/lightshow",
+    //   name: "lightshow",
+    //   component: () =>
+    //     import(/* webpackChunkName: "lightshow" */ "./views/Lightshow.vue")
+    // },
+    // {
+    //   path: "/spotifylogin",
+    //   name: "spotifylogin",
+    //   beforeEnter(to, from, next) {
+    //     let domain = "https://accounts.spotify.com/authorize";
+    //     let type = "token";
+    //     let clientID = "9522a51415704f4c91b4829149e66c9f";
+    //     let callback = encodeURIComponent("http://localhost:8080/#/auth");
 
-        if (clientID) {
-          const URL = `${domain}?response_type=${type}&client_id=${clientID}&redirect_uri=${callback}`;
-          window.location = URL;
-        } else {
-          next();
-        }
-      }
-    }
+    //     if (clientID) {
+    //       const URL = `${domain}?response_type=${type}&client_id=${clientID}&redirect_uri=${callback}`;
+    //       window.location = URL;
+    //     } else {
+    //       next();
+    //     }
+    //   }
+    // },
+    // {
+    //     path: "/auth",
+    //     name: "auth",
+    //     beforeEnter(from) {
+    //     console.log(from);
+    //       if (from.hash) {
+    //         console.log(from.hash);
+  
+    //         // if (data.error) {
+    //         //   router.push("/login");
+    //         // } else {
+    //         //   sessionStorage.setItem("spotify-user-token", JSON.stringify(data));
+    //           router.push("/lightshow");
+    //     //     }
+    //     //   } else {
+    //     //     router.push("/login");
+    //     //   }
+    //       }
+    //     }
+    //   }
   ]
 });
 
