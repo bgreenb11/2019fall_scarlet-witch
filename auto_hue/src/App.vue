@@ -16,6 +16,11 @@
             <span class="mr-2">Devices and Groups</span>
           </v-btn>
         </router-link>
+        <router-link to="/spotifylogin">
+          <v-btn text>
+            <span class="mr-2">Lightshow</span>
+          </v-btn>
+        </router-link>
       </v-app-bar>
       <v-content>
         <router-view />

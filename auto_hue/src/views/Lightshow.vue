@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div>
+      <p>Lightshow page</p>
+    </div>
 </template>
 
 <script>

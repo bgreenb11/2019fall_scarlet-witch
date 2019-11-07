@@ -10,7 +10,6 @@ import InitialSetup from "../components/InitialSetup.vue";
 export default {
   components: {
     InitialSetup
-    // HueHelper
   }
 };
 </script>
