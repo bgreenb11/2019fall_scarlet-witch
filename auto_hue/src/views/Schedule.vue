@@ -33,6 +33,23 @@
           :style="{ width: color_picker_width }"
           v-if="id === undefined"
         ></v-select>
+        <v-list two-line :style="{ width: color_picker_width }">
+          <v-subheader>Weekdays</v-subheader>
+          <v-list-item v-for="(day, i) in days" :key="i">
+            <template v-slot:default="{ active, toggle }">
+              <v-list-item-action>
+                <v-checkbox
+                  v-model="active"
+                  color="primary"
+                  @click="toggle"
+                ></v-checkbox>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title v-text="day"></v-list-item-title>
+              </v-list-item-content>
+            </template>
+          </v-list-item>
+        </v-list>
       </v-col>
       <v-col>
         <v-color-picker
@@ -91,6 +108,8 @@ export default {
     bridge: "",
     user: "",
     schedule: {},
+    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    day_toggle: false,
     config: {
       address: "",
       name: "",
@@ -99,7 +118,8 @@ export default {
       colorloop: false,
       group_id: 0,
       toggle: false,
-      slider: 0
+      slider: 0,
+      days: 0,
     }
   }),
   mounted: function() {
@@ -242,7 +262,8 @@ export default {
         `http://${this.bridge}/api/${this.user}/schedules/${this.id}`
       );
       this.removeSchedule(this.id);
-    }
+    },
+
   }
 };
 </script>
