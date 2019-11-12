@@ -101,15 +101,21 @@
                   <v-stepper-content :key="`2_time_content`" :step="2" align="center">
                     <v-row v-if="time_option == 1" justify="space-around">
                       <v-time-picker
-                          v-model="config.time"
+                          v-model="time"
                           color="orange darken-2"
-                          cols="4"
                           scrollable
                           use-seconds
-                          :style="{ width: '300px', height: '400px', top: '50%'}"
+                          :style="{ width: '300px', height: '400px'}"
                       ></v-time-picker>
-                      <v-col cols="1"></v-col>
-                      <v-list two-line :style="{ width: '300px' }" cols="4">
+                      <v-time-picker
+                          v-model="end_time"
+                          v-if="has_end"
+                          color="orange darken-2"
+                          scrollable
+                          use-seconds
+                          :style="{ width: '300px', height: '400px'}"
+                      ></v-time-picker>
+                      <v-list two-line :style="{ width: '300px' }">
                         <v-subheader justify="center">Weekdays</v-subheader>
                         <v-list-item-group multiple v-model="days_selected" color="orange darken-2">
                           <v-list-item v-for="(day, i) in days" :key="i">
@@ -125,7 +131,7 @@
                     </v-row>
                     <v-row v-if="time_option == 2" justify="space-around">
                       <v-time-picker
-                          v-model="config.time"
+                          v-model="time"
                           color="orange darken-2"
                           scrollable
                           use-seconds
@@ -133,28 +139,23 @@
                     </v-row>
                     <v-row v-if="time_option == 3" justify="space-around">
                       <v-time-picker
-                          v-model="config.time"
+                          v-model="time"
                           color="orange darken-2"
-                          cols="4"
                           scrollable
                           use-seconds
                           :style="{ width: '300px', height: '400px', top: '50%'}"
                       ></v-time-picker>
-                      <v-col cols="1"></v-col>
-                      <v-list two-line :style="{ width: '300px' }" cols="4">
-                        <v-subheader justify="center">Weekdays</v-subheader>
-                        <v-list-item-group multiple v-model="days_selected" color="orange darken-2">
-                          <v-list-item v-for="(day, i) in days" :key="i">
-                            <v-list-item-icon>
-                              <v-icon>mdi-calendar</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-content>
-                              <v-list-item-title v-text="day"></v-list-item-title>
-                            </v-list-item-content>
-                          </v-list-item>
-                        </v-list-item-group>
-                      </v-list>
+                      <v-time-picker
+                          v-model="time"
+                          v-if="has_end"
+                          color="orange darken-2"
+                          scrollable
+                          use-seconds
+                          :style="{ width: '300px', height: '400px', top: '50%'}"
+                      ></v-time-picker>
+                      <v-date-picker v-model="date" header-color="orange darken-2" color="orange darken-3"></v-date-picker>
                     </v-row>
+                    <v-switch v-if="time_option != 2" v-model="has_end" label="Specify Ending Time?"></v-switch>
                   </v-stepper-content>
               </v-stepper>
               <v-btn
@@ -262,6 +263,10 @@
             time_step: 1,
             time_option: 0,
             groups: [],
+            date: "",
+            time: "00:00:00",
+            has_end: false,
+            end_time: "00:00:00",
             bridge: "",
             user: "",
             schedule: {},
@@ -289,7 +294,7 @@
                 );
                 this.config.name = this.schedule.name;
                 this.config.desc = this.schedule.description;
-                this.config.time = this.schedule.localtime.split("T")[1];
+                this.time = this.schedule.localtime.split("T")[1];
                 this.config.toggle =
                     this.schedule.command.body.flag || this.schedule.command.body.on;
                 this.config.slider =
@@ -305,6 +310,9 @@
         watch: {
             days_selected() {
                 this.config.days = this.days_selected.reduce((days, day) => days + 2 ** day, 0);
+            },
+            date(){
+                console.log(this.date);
             }
         },
         methods: {
@@ -353,6 +361,29 @@
                     ]
                     : null;
             },
+            timeConfig() {
+                switch(this.time_option){
+                    case 1: {
+                        if (this.has_end) {
+                            return `W${this.config.days}/T${this.time}/T${this.end_time}`
+                        }
+                        else {
+                            return `W${this.config.days}/T${this.time}`
+                        }
+                    }
+                    case 2: {
+                        return `PT${this.time}`
+                    }
+                    case 3: {
+                        if (this.has_end) {
+                            return `${this.date}:T${this.time}/T${this.end_time}`
+                        }
+                        else {
+                            return `${this.date}:T${this.time}`
+                        }
+                    }
+                }
+            },
             createSchedule() {
                 let command = {
                     address: `/api/${this.user}/groups/${this.config.group_id}/action`,
@@ -371,7 +402,7 @@
                     name: this.config.name,
                     description: this.config.desc,
                     command: command,
-                    localtime: `W127/T${this.config.time}`
+                    localtime: this.timeConfig()
                 };
 
                 axios
@@ -397,7 +428,7 @@
                     name: this.config.name,
                     description: this.config.desc,
                     command: command,
-                    localtime: `W${this.config.days}/T${this.config.time}`
+                    localtime: this.timeConfig()
                 };
 
                 axios.put(
