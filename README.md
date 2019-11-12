@@ -1,4 +1,7 @@
-# 2019fall_scarlet_witch
+<img src="https://github.com/utk-cs/2019fall_scarlet-witch/blob/master/auto_hue/src/assets/gradient_single.png" width="200">
 
-## Note on Issues Closed Prior to #16
-Some of the issues closed before #16 we closed before sufficient code to close them was submitted. The reason that they were closed is because of complications with AWS and Google API, the project was required to once again shift gears and use the Philips Hue Bridge API to control our lights. 
+# Auto-Hue 
+
+> An electron app for controlling Phillips Hue lights
+
+Auto-Hue provides a desktop interface to control Phillips Hue lights. This app supports multiple types of lights.
