@@ -35,20 +35,13 @@
         ></v-select>
         <v-list two-line :style="{ width: color_picker_width }">
           <v-subheader>Weekdays</v-subheader>
-          <v-list-item v-for="(day, i) in days" :key="i">
-            <template v-slot:default="{ active, toggle }">
-              <v-list-item-action>
-                <v-checkbox
-                  v-model="active"
-                  color="primary"
-                  @click="toggle"
-                ></v-checkbox>
-              </v-list-item-action>
+          <v-list-item-group multiple v-model="days_selected">
+            <v-list-item v-for="(day, i) in days" :key="i" :disabled="false">
               <v-list-item-content>
                 <v-list-item-title v-text="day"></v-list-item-title>
               </v-list-item-content>
-            </template>
-          </v-list-item>
+            </v-list-item>
+          </v-list-item-group>
         </v-list>
       </v-col>
       <v-col>
@@ -109,7 +102,7 @@ export default {
     user: "",
     schedule: {},
     days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-    day_toggle: false,
+    days_selected: [],
     config: {
       address: "",
       name: "",
@@ -130,7 +123,7 @@ export default {
     this.groups = this.allGroups();
     if (this.id !== undefined) {
       this.schedule = this.allSchedules().find(
-        schedule => schedule.id == this.id
+        schedule => schedule.id === this.id
       );
       this.config.name = this.schedule.name;
       this.config.desc = this.schedule.description;
@@ -147,7 +140,11 @@ export default {
         this.schedule.command.body.effect === "colorloop";
     }
   },
-  watch: {},
+  watch: {
+    days_selected(){
+      this.config.days = this.days_selected.reduce((days, day) => days + 2**day, 0);
+    }
+  },
   methods: {
     color_correction(r, g, b) {
       const gamma_colors = [
@@ -238,7 +235,7 @@ export default {
         name: this.config.name,
         description: this.config.desc,
         command: command,
-        localtime: `W127/T${this.config.time}`
+        localtime: `W${this.config.days}/T${this.config.time}`
       };
 
       axios.put(
@@ -257,15 +254,12 @@ export default {
       console.log(schedule);
       this.addSchedules([schedule]);
     },
-    deleteSchedule() {
+    deleteSchedule(){
       axios.delete(
         `http://${this.bridge}/api/${this.user}/schedules/${this.id}`
       );
       this.removeSchedule(this.id);
     },
-    weekCalc(day, toggle){
-      this.config.days += (toggle) ? 2**day : -(2**day);
-    }
   }
 };
 </script>
