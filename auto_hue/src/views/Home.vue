@@ -7,7 +7,7 @@
 
 <script>
 import InitialSetup from "../components/InitialSetup.vue";
-import TrackList from "../components/TrackList";
+import TrackList from "../components/music-sync/TrackList";
 
 export default {
   components: {
