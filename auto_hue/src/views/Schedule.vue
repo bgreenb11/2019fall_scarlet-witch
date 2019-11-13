@@ -146,7 +146,7 @@
                           :style="{ width: '300px', height: '400px', top: '50%'}"
                       ></v-time-picker>
                       <v-time-picker
-                          v-model="time"
+                          v-model="end_time"
                           v-if="has_end"
                           color="orange darken-2"
                           scrollable
@@ -276,7 +276,6 @@
                 address: "",
                 name: "",
                 desc: "",
-                time: "00:00:00",
                 colorloop: false,
                 group_id: 0,
                 toggle: false,
@@ -295,6 +294,7 @@
                 this.config.name = this.schedule.name;
                 this.config.desc = this.schedule.description;
                 this.time = this.schedule.localtime.split("T")[1];
+                this.end_time = (this.schedule.localtime.split("T")[2]) ? this.schedule.localtime.split("T")[2] : "00:00:00";
                 this.config.toggle =
                     this.schedule.command.body.flag || this.schedule.command.body.on;
                 this.config.slider =
@@ -306,13 +306,23 @@
                     this.schedule.command.body.effect !== undefined &&
                     this.schedule.command.body.effect === "colorloop";
             }
+            else{
+                let date = new Date();
+                this.time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+                this.date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+            }
         },
         watch: {
             days_selected() {
                 this.config.days = this.days_selected.reduce((days, day) => days + 2 ** day, 0);
             },
-            date(){
-                console.log(this.date);
+            has_end(){
+                this.end_time = (this.has_end) ? this.time : "00:00:00";
+            },
+            time_option(){
+                if(this.time_option == 2){
+                    this.time = "00:00:00";
+                }
             }
         },
         methods: {
