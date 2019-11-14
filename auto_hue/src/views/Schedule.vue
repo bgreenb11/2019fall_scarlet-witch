@@ -8,7 +8,8 @@
                 :key="`1_step`"
                 :step="1"
                 :complete="curr_step > 1"
-                editable>
+                :editable="curr_step > 1"
+            >
               Begin Schedule Setup
             </v-stepper-step>
             <v-divider></v-divider>
@@ -16,7 +17,7 @@
                 :key="`2_step`"
                 :step="2"
                 :complete="curr_step > 2"
-                editable>
+                :editable="curr_step > 2">
               Select Time and Days
             </v-stepper-step>
             <v-divider></v-divider>
@@ -24,7 +25,7 @@
                 :key="`3_step`"
                 :step="3"
                 :complete="curr_step > 3"
-                editable>
+                :editable="curr_step > 3">
               Select Color/Effect
             </v-stepper-step>
             <v-divider></v-divider>
@@ -32,7 +33,7 @@
                 :key="`4_step`"
                 :step="4"
                 :complete="(id === undefined) ? config.group_id !== 0 : curr_step === 4"
-                editable>
+                :editable="(id === undefined) ? config.group_id !== 0 : curr_step === 4">
               {{(id === undefined) ? "Choose Group" : "Submit Changes"}}
             </v-stepper-step>
           </v-stepper-header>
@@ -62,31 +63,86 @@
               </v-btn>
             </v-stepper-content>
             <v-stepper-content :key="`2_content`" :step="2" align="center">
-              <v-row>
-                <v-time-picker
-                    v-model="config.time"
-                    color="orange darken-2"
-                    cols="4"
-                    scrollable
-                    use-seconds
-                    :style="{ width: '300px', height: '400px', top: '50%'}"
-                ></v-time-picker>
-                <v-col cols="1"></v-col>
-                <v-list two-line :style="{ width: '300px' }" cols="4">
-                  <v-subheader justify="center">Weekdays</v-subheader>
-                  <v-list-item-group multiple v-model="days_selected" color="orange darken-2">
-                    <v-list-item v-for="(day, i) in days" :key="i">
-                      <v-list-item-icon>
-                        <v-icon>mdi-calendar</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-content>
-                        <v-list-item-title v-text="day"></v-list-item-title>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list-item-group>
-                </v-list>
-              </v-row>
-              <v-divider class="my-2"></v-divider>
+              <v-stepper vertical v-model="time_step">
+                  <v-stepper-step :key="`1_time_step`" :step="1" :complete="time_option !== 0" editable>
+                    Choose Time Option
+                  </v-stepper-step>
+                  <v-stepper-content :key="`1_time_content`" :step="1" align="center">
+                    <v-btn-toggle
+                      mandatory
+                      rounded
+                      v-model="time_option"
+                    >
+                      <v-btn
+                          value="1"
+                          @click="time_step += 1"
+                      >
+                        <span class="hidden-sm-and-down">Weekly</span>
+                        <v-icon right>mdi-calendar-week</v-icon>
+                      </v-btn>
+                      <v-btn
+                          value="2"
+                          @click="time_step += 1"
+                      >
+                        <span class="hidden-sm-and-down">Timer</span>
+                        <v-icon right>mdi-alarm</v-icon>
+                      </v-btn>
+                      <v-btn
+                          value="3"
+                          @click="time_step += 1"
+                      >
+                        <span class="hidden-sm-and-down">Future</span>
+                        <v-icon right>mdi-calendar-month</v-icon>
+                      </v-btn>
+                    </v-btn-toggle>
+                  </v-stepper-content>
+                  <v-stepper-step :key="`2_time_step`" :step="2" :complete="curr_step > 2">
+                    Setup Time Config
+                  </v-stepper-step>
+                  <v-stepper-content :key="`2_time_content`" :step="2" align="center">
+                    <v-row v-if="time_option == 1" justify="space-around">
+                      <v-time-picker
+                          v-model="time"
+                          color="orange darken-2"
+                          scrollable
+                          use-seconds
+                          :style="{ width: '300px', height: '400px'}"
+                      ></v-time-picker>
+                      <v-list two-line :style="{ width: '300px' }">
+                        <v-subheader justify="center">Weekdays</v-subheader>
+                        <v-list-item-group multiple v-model="days_selected" color="orange darken-2">
+                          <v-list-item v-for="(day, i) in days" :key="i">
+                            <v-list-item-icon>
+                              <v-icon>mdi-calendar</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                              <v-list-item-title v-text="day"></v-list-item-title>
+                            </v-list-item-content>
+                          </v-list-item>
+                        </v-list-item-group>
+                      </v-list>
+                    </v-row>
+                    <v-row v-if="time_option == 2" justify="space-around">
+                      <v-time-picker
+                          v-model="time"
+                          color="orange darken-2"
+                          scrollable
+                          format="24hr"
+                          use-seconds
+                      ></v-time-picker>
+                    </v-row>
+                    <v-row v-if="time_option == 3" justify="space-around">
+                      <v-time-picker
+                          v-model="time"
+                          color="orange darken-2"
+                          scrollable
+                          use-seconds
+                          :style="{ width: '300px', height: '400px', top: '50%'}"
+                      ></v-time-picker>
+                      <v-date-picker v-model="date" header-color="orange darken-2" color="orange darken-3"></v-date-picker>
+                    </v-row>
+                  </v-stepper-content>
+              </v-stepper>
               <v-btn
                   color="primary"
                   @click="nextStep(2)"
@@ -95,7 +151,7 @@
               </v-btn>
             </v-stepper-content>
             <v-stepper-content :key="`3_content`" :step="3" align="center">
-              <v-row justify="center">
+              <v-row justify="space-around">
                 <v-col cols="4">
                   <v-color-picker
                       id="color-picker"
@@ -189,7 +245,11 @@
         data: () => ({
             color: "#000000",
             curr_step: 1,
+            time_step: 1,
+            time_option: 0,
             groups: [],
+            date: "",
+            time: "00:00:00",
             bridge: "",
             user: "",
             schedule: {},
@@ -199,7 +259,6 @@
                 address: "",
                 name: "",
                 desc: "",
-                time: "00:00:00",
                 colorloop: false,
                 group_id: 0,
                 toggle: false,
@@ -217,7 +276,7 @@
                 );
                 this.config.name = this.schedule.name;
                 this.config.desc = this.schedule.description;
-                this.config.time = this.schedule.localtime.split("T")[1];
+                this.time = this.schedule.localtime.split("T")[1];
                 this.config.toggle =
                     this.schedule.command.body.flag || this.schedule.command.body.on;
                 this.config.slider =
@@ -229,10 +288,30 @@
                     this.schedule.command.body.effect !== undefined &&
                     this.schedule.command.body.effect === "colorloop";
             }
+
+
+        },
+        computed: {
+
         },
         watch: {
             days_selected() {
                 this.config.days = this.days_selected.reduce((days, day) => days + 2 ** day, 0);
+            },
+            time_option(){
+                if(this.time_option == 2){
+                    this.time = "00:00:00";
+                }
+                else if(this.time_option == 1){
+                    let date = new Date();
+                    this.time = (this.id !== undefined) ? this.schedule.localtime.split("T")[1] : `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+                }
+                else{
+                    let date = new Date();
+                    this.time = (this.id !== undefined) ? this.schedule.localtime.split("T")[1] : `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+                    this.date = (this.id !== undefined && !this.schedule.localtime.includes("W")) ?
+                        this.schedule.localtime.split("T")[0] : `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+                }
             }
         },
         methods: {
@@ -281,6 +360,19 @@
                     ]
                     : null;
             },
+            timeConfig() {
+
+                if(this.time_option == 1){
+                    return `W${this.config.days}/T${this.time}`
+                }
+                else if(this.time_option == 2){
+                    return `PT${this.time}`
+                }
+                else if(this.time_option == 3){
+                    return `${this.date}T${this.time}`
+                }
+
+            },
             createSchedule() {
                 let command = {
                     address: `/api/${this.user}/groups/${this.config.group_id}/action`,
@@ -299,7 +391,7 @@
                     name: this.config.name,
                     description: this.config.desc,
                     command: command,
-                    localtime: `W127/T${this.config.time}`
+                    localtime: this.timeConfig()
                 };
 
                 axios
@@ -325,7 +417,7 @@
                     name: this.config.name,
                     description: this.config.desc,
                     command: command,
-                    localtime: `W${this.config.days}/T${this.config.time}`
+                    localtime: this.timeConfig()
                 };
 
                 axios.put(
