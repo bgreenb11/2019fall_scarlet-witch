@@ -41,6 +41,8 @@ Users can also auto play and shuffle their library. In these modes only analyzed
 * This section will describe how to create a schedule and the various schedules available  
 **1)** Give the new schedule a name and write a description to be used by both Auto Hue and the Hue API     
  ![Media1](https://user-images.githubusercontent.com/33168761/68898398-5a516e00-06fd-11ea-8431-25d5a5e61674.gif)
+ 
+***
 
 **2)** Select a time option from the choices **_Weekly_**, **_Timer_**, and **_Future_**  
 ![Schedule_Step_2a](https://user-images.githubusercontent.com/33168761/68904628-67298e00-070c-11ea-8adc-36edbb4e17d2.png)
@@ -62,6 +64,8 @@ Users can also auto play and shuffle their library. In these modes only analyzed
 **3)** Next choose the action that will occur when the schedule occurs. 
 * The options are to power on/off, and if on add a colorloop effect or choose a color from the picker
 ![Schedule_Step_3](https://user-images.githubusercontent.com/33168761/68904691-7b6d8b00-070c-11ea-99d3-b840f1ddd8af.png)
+
+***
 
 **4)** Finally, choose a group for the schedule to act on and finish the creation process
 ![Schedule_Step_4](https://user-images.githubusercontent.com/33168761/68904693-7d374e80-070c-11ea-82d2-b15c67f9caa5.png)
