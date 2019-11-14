@@ -8,7 +8,8 @@
                 :key="`1_step`"
                 :step="1"
                 :complete="curr_step > 1"
-                editable>
+                :editable="curr_step > 1"
+            >
               Begin Schedule Setup
             </v-stepper-step>
             <v-divider></v-divider>
@@ -16,7 +17,7 @@
                 :key="`2_step`"
                 :step="2"
                 :complete="curr_step > 2"
-                editable>
+                :editable="curr_step > 2">
               Select Time and Days
             </v-stepper-step>
             <v-divider></v-divider>
@@ -24,7 +25,7 @@
                 :key="`3_step`"
                 :step="3"
                 :complete="curr_step > 3"
-                editable>
+                :editable="curr_step > 3">
               Select Color/Effect
             </v-stepper-step>
             <v-divider></v-divider>
@@ -32,7 +33,7 @@
                 :key="`4_step`"
                 :step="4"
                 :complete="(id === undefined) ? config.group_id !== 0 : curr_step === 4"
-                editable>
+                :editable="(id === undefined) ? config.group_id !== 0 : curr_step === 4">
               {{(id === undefined) ? "Choose Group" : "Submit Changes"}}
             </v-stepper-step>
           </v-stepper-header>
@@ -107,14 +108,6 @@
                           use-seconds
                           :style="{ width: '300px', height: '400px'}"
                       ></v-time-picker>
-                      <v-time-picker
-                          v-model="end_time"
-                          v-if="has_end"
-                          color="orange darken-2"
-                          scrollable
-                          use-seconds
-                          :style="{ width: '300px', height: '400px'}"
-                      ></v-time-picker>
                       <v-list two-line :style="{ width: '300px' }">
                         <v-subheader justify="center">Weekdays</v-subheader>
                         <v-list-item-group multiple v-model="days_selected" color="orange darken-2">
@@ -134,6 +127,7 @@
                           v-model="time"
                           color="orange darken-2"
                           scrollable
+                          format="24hr"
                           use-seconds
                       ></v-time-picker>
                     </v-row>
@@ -145,17 +139,8 @@
                           use-seconds
                           :style="{ width: '300px', height: '400px', top: '50%'}"
                       ></v-time-picker>
-                      <v-time-picker
-                          v-model="end_time"
-                          v-if="has_end"
-                          color="orange darken-2"
-                          scrollable
-                          use-seconds
-                          :style="{ width: '300px', height: '400px', top: '50%'}"
-                      ></v-time-picker>
                       <v-date-picker v-model="date" header-color="orange darken-2" color="orange darken-3"></v-date-picker>
                     </v-row>
-                    <v-switch v-if="time_option != 2" v-model="has_end" label="Specify Ending Time?"></v-switch>
                   </v-stepper-content>
               </v-stepper>
               <v-btn
@@ -265,8 +250,6 @@
             groups: [],
             date: "",
             time: "00:00:00",
-            has_end: false,
-            end_time: "00:00:00",
             bridge: "",
             user: "",
             schedule: {},
@@ -294,7 +277,6 @@
                 this.config.name = this.schedule.name;
                 this.config.desc = this.schedule.description;
                 this.time = this.schedule.localtime.split("T")[1];
-                this.end_time = (this.schedule.localtime.split("T")[2]) ? this.schedule.localtime.split("T")[2] : "00:00:00";
                 this.config.toggle =
                     this.schedule.command.body.flag || this.schedule.command.body.on;
                 this.config.slider =
@@ -306,22 +288,29 @@
                     this.schedule.command.body.effect !== undefined &&
                     this.schedule.command.body.effect === "colorloop";
             }
-            else{
-                let date = new Date();
-                this.time = `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-                this.date = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
-            }
+
+
+        },
+        computed: {
+
         },
         watch: {
             days_selected() {
                 this.config.days = this.days_selected.reduce((days, day) => days + 2 ** day, 0);
             },
-            has_end(){
-                this.end_time = (this.has_end) ? this.time : "00:00:00";
-            },
             time_option(){
                 if(this.time_option == 2){
                     this.time = "00:00:00";
+                }
+                else if(this.time_option == 1){
+                    let date = new Date();
+                    this.time = (this.id !== undefined) ? this.schedule.localtime.split("T")[1] : `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+                }
+                else{
+                    let date = new Date();
+                    this.time = (this.id !== undefined) ? this.schedule.localtime.split("T")[1] : `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+                    this.date = (this.id !== undefined && !this.schedule.localtime.includes("W")) ?
+                        this.schedule.localtime.split("T")[0] : `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
                 }
             }
         },
@@ -372,27 +361,17 @@
                     : null;
             },
             timeConfig() {
-                switch(this.time_option){
-                    case 1: {
-                        if (this.has_end) {
-                            return `W${this.config.days}/T${this.time}/T${this.end_time}`
-                        }
-                        else {
-                            return `W${this.config.days}/T${this.time}`
-                        }
-                    }
-                    case 2: {
-                        return `PT${this.time}`
-                    }
-                    case 3: {
-                        if (this.has_end) {
-                            return `${this.date}:T${this.time}/T${this.end_time}`
-                        }
-                        else {
-                            return `${this.date}:T${this.time}`
-                        }
-                    }
+
+                if(this.time_option == 1){
+                    return `W${this.config.days}/T${this.time}`
                 }
+                else if(this.time_option == 2){
+                    return `PT${this.time}`
+                }
+                else if(this.time_option == 3){
+                    return `${this.date}T${this.time}`
+                }
+
             },
             createSchedule() {
                 let command = {
