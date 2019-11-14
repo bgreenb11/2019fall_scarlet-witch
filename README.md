@@ -39,6 +39,8 @@ Users can also auto play and shuffle their library. In these modes only analyzed
 ## Build a Schedule
 
 * This section will describe how to create a schedule and the various schedules available  
+*** 
+
 **1)** Give the new schedule a name and write a description to be used by both Auto Hue and the Hue API     
  ![Media1](https://user-images.githubusercontent.com/33168761/68898398-5a516e00-06fd-11ea-8431-25d5a5e61674.gif)
  
