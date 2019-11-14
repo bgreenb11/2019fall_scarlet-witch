@@ -25,6 +25,8 @@ npm run electron:serve
 
 When loading up AutoHue for the first time you will be prompted through a set up process. This step by step formula is pretty straightforward, but it requires you to have **physically** touch your Hue Bridge. This is the only way to initially connect your bridge to AutoHue.
 
+_Note: If you do not have an internet connection, you will need the IP address of your bridge._
+
 ## Light Show
 
 One of the main capabilities of AutoHue is its ability to change your Hue lights according to the music being played within the application. As of right now support is only available for local files on the machine, but future iterations look to include Spotify web player for improved UX. 
