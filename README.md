@@ -4,19 +4,23 @@
 
 > An electron app for controlling Phillips Hue lights
 
+## Requirements
+
+- Node Package Manager - This is installed with [Node.js](https://nodejs.org/en/download/ "Node.js Download")
+
 ## Installation
 
-1. Clone the repository to your local machine
+**1)** Clone the repository to your local machine
 ```bash
 git clone https://github.com/utk-cs/2019fall_scarlet-witch.git
 ```
 
-2. Install project dependencies
+**2)** Install project dependencies
 ```npm
 npm install
 ```
 
-3. Run the app
+**3)** Run the app
 ```npm
 npm run electron:serve
 ```
