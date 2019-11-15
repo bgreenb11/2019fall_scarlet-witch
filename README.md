@@ -51,16 +51,16 @@ Users can also auto play and shuffle their library. In these modes only analyzed
     
 **2a)** The weekly option allows for a schedule to repeat on the selected days every week  
   
-![Schedule_Step_2b](https://user-images.githubusercontent.com/33168761/68904630-6abd1500-070c-11ea-9f84-e5a19345b572.png)
-    
+![week](https://user-images.githubusercontent.com/33168761/68906926-f0908e80-0713-11ea-9387-10612660f3eb.gif)  
+  
 **2b)** The timer option allows for one time schedule to occur "XX:XX:XX" in the future  
   
-![schedule2](https://user-images.githubusercontent.com/33168761/68906488-685db980-0712-11ea-878e-0ca85490c093.gif)  
-  
+![timer](https://user-images.githubusercontent.com/33168761/68906928-f2f2e880-0713-11ea-8c5e-aaadb83a0682.gif)  
+    
 **2c)** The future option allows for a scheduled event to occur on a specific day at a specific time
   
-![Schedule_Step_2d](https://user-images.githubusercontent.com/33168761/68904683-790b3100-070c-11ea-9148-fe55c4d527cc.png)
-
+![future](https://user-images.githubusercontent.com/33168761/68906931-f5edd900-0713-11ea-9849-97164781da56.gif)  
+  
 ***  
   
 **3)** Next choose the action that will occur when the schedule occurs. 
