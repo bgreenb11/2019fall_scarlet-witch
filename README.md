@@ -7,6 +7,8 @@
 ## Requirements
 
 - Node Package Manager - This is installed with [Node.js](https://nodejs.org/en/download/ "Node.js Download")
+- [Git](https://git-scm.com/downloads "Git Download") - Source control for version management
+
 
 ## Installation
 
