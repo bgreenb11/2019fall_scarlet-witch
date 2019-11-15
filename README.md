@@ -55,8 +55,8 @@ Users can also auto play and shuffle their library. In these modes only analyzed
     
 **2b)** The timer option allows for one time schedule to occur "XX:XX:XX" in the future  
   
-![Schedule_Step_2c](https://user-images.githubusercontent.com/33168761/68904677-7577aa00-070c-11ea-9898-203ccfb5dddd.png)
-    
+![schedule2](https://user-images.githubusercontent.com/33168761/68906488-685db980-0712-11ea-878e-0ca85490c093.gif)  
+  
 **2c)** The future option allows for a scheduled event to occur on a specific day at a specific time
   
 ![Schedule_Step_2d](https://user-images.githubusercontent.com/33168761/68904683-790b3100-070c-11ea-9148-fe55c4d527cc.png)
@@ -65,13 +65,13 @@ Users can also auto play and shuffle their library. In these modes only analyzed
   
 **3)** Next choose the action that will occur when the schedule occurs. 
 * The options are to power on/off, and if on add a colorloop effect or choose a color from the picker
-![Schedule_Step_3](https://user-images.githubusercontent.com/33168761/68904691-7b6d8b00-070c-11ea-99d3-b840f1ddd8af.png)
-
+![schedule3](https://user-images.githubusercontent.com/33168761/68906493-6b58aa00-0712-11ea-95e0-531adfd5f0a9.gif)  
+  
 ***
 
 **4)** Finally, choose a group for the schedule to act on and finish the creation process
-![Schedule_Step_4](https://user-images.githubusercontent.com/33168761/68904693-7d374e80-070c-11ea-82d2-b15c67f9caa5.png)
-
+![schedule4](https://user-images.githubusercontent.com/33168761/68906494-6e539a80-0712-11ea-97a9-3c19f86e0b41.gif)
+  
 
 
 
