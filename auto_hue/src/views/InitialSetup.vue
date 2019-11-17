@@ -105,7 +105,10 @@ export default {
     return {
       index: 0,
       bridges: [],
-      bridge: null,
+      bridge: {
+        id: null,
+        internalipaddress: ""
+      },
       hash_username: null,
       loading: false,
       connected: false,
@@ -178,36 +181,40 @@ export default {
       this.index += 1;
     },
     start_linkBridge: function() {
-      setTimeout(() => {
-        this.linkBridge();
-      }, 10000);
+      try {
+        setTimeout(() => {
+          this.linkBridge();
+        }, 10000));
+      } catch (error) {
+        this.loading = false;
+        console.error(error);
+      }
+      this.loading = false;
     },
     linkBridge: function() {
       var json = {
         devicetype: "auto_hue#desktop user"
       };
-      try {
-        axios
-          .post(`http://${this.bridge.internalipaddress}/api/`, json)
-          .then(response => {
-            this.loading = false;
-            try {
-              this.hash_username = response.data[0].success.username;
-              this.setUser(hash_username);
-              this.index = this.pages.length - 2;
-            } catch (error) {
-              console.error(error);
-            }
-          })
-          .catch(error => {
-            console.log(error);
-            this.index = this.pages.length - 1;
-          });
-      } catch (error) {
-        console.error(error);
-        this.index = 0;
-        // Reset setup or close out
-      }
+      axios
+        .post(`http://${this.bridge.internalipaddress}/api/`, json)
+        .then(response => {
+          this.loading = false;
+          try {
+            this.hash_username = response.data[0].success.username;
+            this.setUser(hash_username);
+
+            console.log(this.getUser());
+
+            this.index = this.pages.length - 2;
+          } catch (error) {
+            console.error(error);
+          }
+        })
+        .catch(error => {
+          this.index = this.pages.length - 1;
+          this.loading = false;
+          console.log(error);
+        });
     }
   }
 };

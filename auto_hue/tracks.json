@@ -1,42 +1,10 @@
 [
     {
-        "path": "/Users/jduffy/Desktop/School/Fall_2019/cs340/2019fall_scarlet-witch/auto_hue/src/assets/SampleMusic/dance.mp3",
+        "path": "C:\\Users\\Jacob Duffy\\Desktop\\2019fall_scarlet-witch\\auto_hue\\src\\assets\\SampleMusic\\soul.mp3",
         "bpm": null
     },
     {
         "path": "/Users/jduffy/Desktop/School/Fall_2019/cs340/2019fall_scarlet-witch/auto_hue/src/assets/SampleMusic/electronic.mp3",
-        "bpm": null
-    },
-    {
-        "path": "a",
-        "bpm": null
-    },
-    {
-        "path": "b",
-        "bpm": null
-    },
-    {
-        "path": "c",
-        "bpm": null
-    },
-    {
-        "path": "d",
-        "bpm": null
-    },
-    {
-        "path": "e",
-        "bpm": null
-    },
-    {
-        "path": "f",
-        "bpm": null
-    },
-    {
-        "path": "g",
-        "bpm": null
-    },
-    {
-        "path": "h",
         "bpm": null
     }
 ]

@@ -13,6 +13,10 @@
                         <p>{{track.path.substring(track.path.length - 20, track.path.length)}}</p>
                     </v-list-item>
                 </v-list>
+                <v-card-actions class="justify-end">
+                    <v-btn icon><v-icon>mdi-plus</v-icon></v-btn>
+                    <v-btn icon><v-icon>mdi-minus</v-icon></v-btn>
+                </v-card-actions>
             </v-card>
         </v-col>
         <v-col>
@@ -22,11 +26,15 @@
                     <v-list-item
                         v-for="group in groups"
                         :key="group.name"
-                        v-on:click="selectGroupt(group)"
+                        v-on:click="selectGroup(group)"
                     >
                         <p>{{group.name}}</p>
                     </v-list-item>
                 </v-list>
+                <v-card-actions class="justify-end">
+                    <v-btn icon><v-icon>mdi-plus</v-icon></v-btn>
+                    <v-btn icon><v-icon>mdi-minus</v-icon></v-btn>
+                </v-card-actions>
             </v-card>
         </v-col>
     </v-row>
@@ -36,6 +44,9 @@
             style="margin: auto;"
             height="100"
         >
+            <audio id="TRACK">
+                <source :src="defaultAudioFile" type="audio/mpeg" />
+            </audio>
             <div>
                 <p>{{addedTrack.path}}</p>
             </div>
@@ -59,6 +70,11 @@ const AudioContext = require('web-audio-api').AudioContext;
 const MusicTempo = require('music-tempo');
 const fs = require('fs');
 
+const context = new AudioContext();
+const TRACK = document.getElementById("TRACK")
+
+context.outStream = null;
+
 const playing = {
     0: "mdi-play",
     1: "mdi-pause"
@@ -81,6 +97,8 @@ export default {
             tracks: [],
             groups: [],
             selectedGroup: null,
+            currentAudio: null,
+            currentTrackIndex: null,
             addedTrack: {
                 "path": "None Selected",
                 "bpm": null
@@ -125,7 +143,6 @@ export default {
         determineSong: async function (filePath) {
             this.addedTrack.path = filePath;
             let song = fs.readFileSync(filePath);
-            let context = new AudioContext();
             context.decodeAudioData(song, this.calculateTempo, this.issue);
         },
 
@@ -202,28 +219,27 @@ export default {
             stateType.state = stateDict[stateType.index];
         },
 
+        play: function (buffer) {
+            let source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start;
+        },
+
         playTrack: function (stateType) {
             if (stateType.id !== "play") {
                 console.error(`Cannot handle play with invlaid state type: ${stateType.id} given.`);
                 return;
             }
 
-            let song, context, source;
+            let song;
 
             switch(stateType.index) {
                 case 0:
-                    // Start the song
-                    song = fs.readFileSync(this.addedTrack.path);
-                    context = new AudioContext();
-                    // context.outstream = new Speaker({
-                    //     channels: context.format.numberOfChannels,
-                    //     bitDepth: context.format.bitDepth,
-                    //     sampleRate: context.sampleRate
-                    // });
-                    source = context.createBufferSource();
-                    source.buffer = song;
-                    source.connect(context.destination);
-                    source.start();
+                    //Play Song
+                    TRACK.play();
+
+
                     break;
                 case 1:
                     // Stop the song
