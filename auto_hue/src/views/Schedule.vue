@@ -291,9 +291,6 @@
 
 
         },
-        computed: {
-
-        },
         watch: {
             days_selected() {
                 this.config.days = this.days_selected.reduce((days, day) => days + 2 ** day, 0);
@@ -443,7 +440,7 @@
                 this.removeSchedule(this.id);
             },
             nextStep(n) {
-                if (n === this.steps) {
+                if (n === 4) {
                     this.curr_step = 1
                 } else {
                     this.curr_step = n + 1
