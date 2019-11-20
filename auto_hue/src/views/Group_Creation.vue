@@ -39,14 +39,14 @@
                   v-model="name"
                   :style="{ width: '300px' }"
               ></v-text-field>
-              <v-switch v-model="is_room" label="Is this group a room group?"></v-switch>
-              <v-autocomplete
-                  label="Group Class"
-                  :items="group_classes"
-                  v-model="group_class"
-                  :style="{ width: '300px' }"
-                  v-if="is_room"
-              ></v-autocomplete>
+<!--              <v-switch v-model="is_room" label="Is this group a room group?"></v-switch>-->
+<!--              <v-autocomplete-->
+<!--                  label="Group Class"-->
+<!--                  :items="group_classes"-->
+<!--                  v-model="group_class"-->
+<!--                  :style="{ width: '300px' }"-->
+<!--                  v-if="is_room"-->
+<!--              ></v-autocomplete>-->
               <v-divider class="my-2"></v-divider>
               <v-btn
                   color="primary"
@@ -116,7 +116,7 @@
               </v-btn>
             </v-stepper-content>
             <v-stepper-content :key="`3_content`" :step="3" align="center">
-              <router-link :to="{name: 'group', params: {id: group_id}}">
+              <router-link :to="{name: 'devices'}">
                 <v-btn
                     class="mx-2"
                     raised
@@ -189,7 +189,7 @@
             createGroup(){
                 let group = {
                     name: this.name,
-                    ...(this.is_room && {type: "Room", class: this.group_class}),
+                    // ...(this.is_room && {type: "Room", class: this.group_class}),
                     lights: this.chosen_lights.map(light => light.id)
                 };
                 axios.post(`http://${this.bridge}/api/${this.user}/groups`, group).then(
