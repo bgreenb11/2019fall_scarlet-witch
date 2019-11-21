@@ -26,21 +26,10 @@
             min="1"
             :disabled="!toggle"
             :style="{ width: color_picker_width}"
-            v-on:end="changeBrightness()"
             label="Brightness"
           ></v-slider>
           <v-switch v-model="colorloop" v-on:change="toggleColorLoop()" label="ColorLoop"></v-switch>
           <v-switch v-model="toggle" v-on:change="toggleLight()" label="Power On/Off"></v-switch>
-          <v-btn-toggle
-            mandatory
-          >
-            <v-btn>
-              Color
-            </v-btn>
-            <v-btn>
-              Patterns
-            </v-btn>
-          </v-btn-toggle>
         </v-col>
       </v-row>
       <v-divider
@@ -119,6 +108,9 @@ export default {
         }
       );
       console.log(this.hexToRgb());
+    },
+    slider() {
+      this.changeBrightness();
     }
   },
   methods: {
