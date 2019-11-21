@@ -27,6 +27,7 @@
               min="1"
               :disabled="!toggle"
               :style="{ width: color_picker_width}"
+              label="Brightness"
             ></v-slider>
             <v-switch v-model="colorloop" v-on:change="toggleColorLoop()" label="ColorLoop"></v-switch>
             <v-switch v-model="toggle" v-on:change="toggleLight()" label="Power On/Off"></v-switch>
@@ -74,7 +75,7 @@ export default {
       console.log(this.id);
     },
     slider() {
-      this.changeBrightness()
+      this.changeBrightness();
     },
     device_id() {
       this.device_id = this.id;
