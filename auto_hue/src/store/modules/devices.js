@@ -63,6 +63,9 @@ const mutations = {
     },
     removeSchedule: (state, id) => {
         state.schedules = state.schedules.filter(schedule => schedule.id !== id)
+    },
+    removeGroup: (state, id) => {
+        state.groups = state.groups.filter(group => group.id !== id)
     }
 };
 
