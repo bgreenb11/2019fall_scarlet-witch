@@ -1,26 +1,38 @@
 <template>
   <div class="device">
-    <v-row>
+    <v-row
+      align="center"
+      style="height: 1000px;"
+    >
       <v-col>
-        <img
-          id="bulb"
-          :src="require(`../assets/bulb_${toggle ? 'on': 'off'}.png`)"
-          width="300"
-          v-bind:style="{backgroundColor: color}"
-        />
+        <v-row justify="center">
+          <img
+            id="bulb"
+            :src="require(`../assets/bulb_${toggle ? 'on': 'off'}.png`)"
+            width="600px"
+            v-bind:style="{backgroundColor: color}"
+          />
+        </v-row>
       </v-col>
+      <v-divider
+        vertical
+      ></v-divider>
       <v-col>
-        <v-color-picker id="color-picker" v-model="color" :disabled="disabled"></v-color-picker>
-        <v-slider
-          v-model="slider"
-          max="254"
-          min="1"
-          :disabled="!toggle"
-          :style="{ width: color_picker_width}"
-          v-on:end="changeBrightness()"
-        ></v-slider>
-        <v-switch v-model="colorloop" v-on:change="toggleColorLoop()" label="ColorLoop"></v-switch>
-        <v-switch v-model="toggle" v-on:change="toggleLight()" label="Power On/Off"></v-switch>
+        <v-row justify="center">
+          <v-col cols="6">
+            <v-color-picker id="color-picker" v-model="color" :disabled="disabled"></v-color-picker>
+            <v-slider
+              v-model="slider"
+              max="254"
+              min="1"
+              :disabled="!toggle"
+              :style="{ width: color_picker_width}"
+              label="Brightness"
+            ></v-slider>
+            <v-switch v-model="colorloop" v-on:change="toggleColorLoop()" label="ColorLoop"></v-switch>
+            <v-switch v-model="toggle" v-on:change="toggleLight()" label="Power On/Off"></v-switch>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </div>
@@ -61,6 +73,9 @@ export default {
       );
       console.log(this.hexToRgb());
       console.log(this.id);
+    },
+    slider() {
+      this.changeBrightness();
     },
     device_id() {
       this.device_id = this.id;

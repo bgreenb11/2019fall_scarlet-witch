@@ -394,7 +394,7 @@
                 axios
                     .post(`http://${this.bridge}/api/${this.user}/schedules`, schedule)
                     .then(response => console.log(response));
-                this.addSchedules([schedule]);
+                // this.addSchedules([schedule]);
             },
             editSchedule() {
                 let command = {

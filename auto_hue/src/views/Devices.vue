@@ -6,7 +6,7 @@
         <Slide v-for="device in devices" :key="device.id" class="device">
           <v-card class="mx-auto" max-width="344" outlined>
             <v-card-title>{{ device.name }}</v-card-title>
-            <v-card-text>Color: {{ device.state.xy ? device.state.xy : "None" }}</v-card-text>
+            <v-card-text>Color: {{ (device.state.xy !== undefined)? device.state.xy : "None" }}</v-card-text>
             <img :src="require(`../assets/${device.productname === 'Hue white lamp' ? 'white': 'gradient'}_single.png`)" width="172">
             <router-link :to="{name: 'device', params: {id: device.id}}">
               <v-btn text>
@@ -28,7 +28,7 @@
         <Slide v-for="group in groups" :key="group.id" class="group">
           <v-card class="mx-auto" max-width="344" outlined>
             <v-card-title>{{ group.name }}</v-card-title>
-            <v-card-text>Color: {{ group.action.xy ? group.action.xy : "None" }}</v-card-text>
+            <v-card-text>Color: {{ (group.action.xy !== undefined) ? group.action.xy : "None" }}</v-card-text>
             <img src="../assets/gradient_group.png" width="172">
             <router-link :to="{name: 'group', params: {id: group.id}}">
               <v-btn text>
@@ -84,12 +84,16 @@ export default {
     Slide
   },
   mounted: function() {
-    this.user = this.getUser();
-    this.bridge = this.getBridge();
-    this.findDevices();
+
+    // this.findDevices();
     this.devices = this.allDevices();
     this.groups = this.allGroups();
     this.schedules = this.allSchedules();
+  },
+  created: function() {
+      this.user = this.getUser();
+      this.bridge = this.getBridge();
+      this.findDevices();
   },
   methods: {
     ...mapActions(["addDevices", "addGroups", "addSchedules"]),
