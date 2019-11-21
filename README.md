@@ -17,12 +17,18 @@
 git clone https://github.com/utk-cs/2019fall_scarlet-witch.git
 ```
 
-**2)** Install project dependencies
+**2)** Change to the auto_hue directory
+```bash
+cd auto_hue/
+```
+
+
+**3)** Install project dependencies
 ```npm
 npm install
 ```
 
-**3)** Run the app
+**4)** Run the app
 ```npm
 npm run electron:serve
 ```
