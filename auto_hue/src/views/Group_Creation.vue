@@ -162,14 +162,14 @@
             group_id: -1,
         }),
         mounted: function() {
-            this.lights = this.allDevices();
             this.bridge = this.getBridge();
             this.user = this.getUser();
+            this.lights = JSON.parse(JSON.stringify(this.allDevices()));
             this.is_room = false;
         },
         watch: {
           is_room(){
-              (this.is_room) ? this.filterLights() : this.lights = this.allDevices();
+              (this.is_room) ? this.filterLights() : this.lights =  JSON.parse(JSON.stringify(this.allDevices()));
           }
         },
         methods: {
@@ -201,16 +201,18 @@
                     }
                 );
 
-                axios.get(`http://${this.bridge}/api/${this.user}/groups/${this.group_id}`).then(
-                    response => {
-                        if(response.data){
-                            this.addGroups(response.data)
-                        }
-                    }
-                );
+                // axios.get(`http://${this.bridge}/api/${this.user}/groups/${this.group_id}`).then(
+                //     response => {
+                //         if(response.data){
+                //             response.data.id = this.group_id;
+                //             this.addGroups([response.data])
+                //         }
+                //     }
+                // );
             },
             filterLights() {
-                let room_lights = this.allGroups().filter(group => group.type === "Room").map(group => group.lights).flat();
+                let room_lights =  JSON.parse(JSON.stringify(this.allDevices())).filter(group => group.type === "Room").map(group => group.lights).flat();
+                room_lights = room_lights.filter(group => group.type === "Room").map(group => group.lights).flat();
                 this.lights = this.lights.filter(light => room_lights.find(room_light => room_light != light.id))
             }
         }
