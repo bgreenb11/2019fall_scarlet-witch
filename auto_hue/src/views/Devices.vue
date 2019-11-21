@@ -16,7 +16,14 @@
           </v-card>
         </Slide>
       </Carousel>
-      <h1>Groups</h1>
+      <h1>
+        Groups
+        <router-link :to="{name: 'group_make'}">
+          <v-btn text>
+            <span class="mr-2">Create Group</span>
+          </v-btn>
+        </router-link>
+      </h1>
       <Carousel :navigationEnabled="true" :perPageCustom="[[480, 2], [768, 3]]">
         <Slide v-for="group in groups" :key="group.id" class="group">
           <v-card class="mx-auto" max-width="344" outlined>
