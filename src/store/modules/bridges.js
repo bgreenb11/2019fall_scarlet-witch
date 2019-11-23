@@ -4,7 +4,7 @@
 const state = {
     bridge: {
         id: "Manual Entry",
-        internalipaddress: "172.16.0.3"
+        internalipaddress: "10.0.0.59"
     },
     user: "VJbh7XBfKSZ7UB3yiYoLUCzMs-XxGx1iXoYp0EGJ"
 };
