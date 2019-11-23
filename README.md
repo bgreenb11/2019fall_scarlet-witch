@@ -12,7 +12,7 @@
 
 ## Installation
 
-**1)** Clone the repository to your local machine
+**1)** Clone the repository to your local machine and navigate to create folder
 ```bash
 git clone https://github.com/utk-cs/2019fall_scarlet-witch.git
 ```
