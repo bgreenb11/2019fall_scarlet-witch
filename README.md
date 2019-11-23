@@ -1,4 +1,4 @@
-<img src="https://github.com/utk-cs/2019fall_scarlet-witch/blob/master/auto_hue/src/assets/gradient_single.png" width="200">
+<img src="https://github.com/utk-cs/2019fall_scarlet-witch/blob/master/src/assets/gradient_single.png" width="200">
 
 # Auto-Hue 
 
